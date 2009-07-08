@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="source"/>
 	<classpathentry kind="src" path="testsource"/>
+	<classpathentry exported="true" kind="lib" path="build/"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/lib-java/junit/4.4/junit.jar"/>
-	<classpathentry kind="lib" path="/lib-java/log4j/1.2.15/log4j-1.2.15.jar" sourcepath="/home/ddajvj/Desktop/log4j"/>
 	<classpathentry kind="lib" path="/lib-java/saxon/8.1.1-xmlbeans-build/saxon8.jar"/>
 	<classpathentry kind="lib" path="/lib-java/saxon/8.1.1-xmlbeans-build/saxon8-dom.jar"/>
 	<classpathentry kind="lib" path="/lib-java/xmlbeans/2.3.0/jsr173_1.0_api.jar"/>
@@ -20,5 +20,6 @@
 			<attribute name="javadoc_location" value="file:/home/ddajvj/download/joda-time-javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
