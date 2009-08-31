@@ -51,6 +51,11 @@ public class DDIFtpException extends Exception {
 		realThrowable = e;
 		log();
 	}
+	
+	public DDIFtpException(String msg, Throwable e, boolean noLog) {
+		super(Translator.trans(msg));
+		realThrowable = e;
+	}
 
 	/**
 	 * Constructs an exception with a specified message with an arg to the
