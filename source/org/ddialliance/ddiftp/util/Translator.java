@@ -1,8 +1,10 @@
 package org.ddialliance.ddiftp.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -12,6 +14,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Properties;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
@@ -19,6 +23,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.ddialliance.ddiftp.util.ResourceBundleManager.ResourceBundleManagerImpl;
 import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
@@ -100,22 +105,41 @@ public class Translator {
 			}
 
 			// add message files to bundle
+			Log log = LogFactory.getLog(LogType.SYSTEM, Translator.class);
 			for (String messageFileName : messageFiles) {
-				Log log = LogFactory.getLog(LogType.SYSTEM, Translator.class);
-				if (log.isDebugEnabled()) {
-					log.debug("Adding resource bundle: "
-							+ ResourceBundleManager.BUNDLE_DIRECTORY
-							+ messageFileName);
+				try {
+					ResourceBundleManager.addResourceBundle(ResourceBundle
+							.getBundle(ResourceBundleManager.BUNDLE_DIRECTORY
+									+ messageFileName, getLocale()));
+					logAddedResourceBundle(log, messageFileName);
+				} catch (Exception e) {
+					try {
+						ResourceBundleManager.ResourceBundleManagerImpl
+								.addResourceBundleFromProperties(
+										ResourceBundleManager.BUNDLE_DIRECTORY
+												+ messageFileName, locale);
+						logAddedResourceBundle(log, messageFileName);
+					} catch (Exception e1) {
+						Log eLog = LogFactory.getLog(LogType.EXCEPTION,
+								Translator.class);
+						eLog.error("Error loading bundle: "
+								+ ResourceBundleManager.BUNDLE_DIRECTORY
+								+ messageFileName + ", locale: " + locale, e1);
+					}
 				}
-				ResourceBundleManager.addResourceBundle(ResourceBundle
-						.getBundle(ResourceBundleManager.BUNDLE_DIRECTORY
-								+ messageFileName, getLocale()));
 			}
 		}
 		if (baseName != null) {
 			return ResourceBundleManager.getBundle(baseName);
 		} else {
 			return ResourceBundleManager.getBundle();
+		}
+	}
+
+	private static void logAddedResourceBundle(Log log, String messageFileName) {
+		if (log.isDebugEnabled()) {
+			log.debug("Adding resource bundle: "
+					+ ResourceBundleManager.BUNDLE_DIRECTORY + messageFileName);
 		}
 	}
 
@@ -456,7 +480,7 @@ public class Translator {
 				// yyyy-MM-dd'T'HH:mm:ssZZ with out millisecond
 				fmt = ISODateTimeFormat.dateTimeNoMillis();
 				fmt.withLocale(getLocale());
-				fmt.withZone(DateTimeZone.getDefault());
+				fmt.withZone(DateTimeZone.forTimeZone(getTimeZone()));
 				DateTime dateTime = fmt.parseDateTime(time);
 				return dateTime.toCalendar(getLocale());
 			} catch (IllegalArgumentException e1) {
@@ -464,7 +488,7 @@ public class Translator {
 					// yyyy-MM-dd'T'HH:mm:ss.SS with out time zone
 					fmt = ISODateTimeFormat.dateHourMinuteSecondFraction();
 					fmt.withLocale(getLocale());
-					fmt.withZone(DateTimeZone.getDefault());
+					fmt.withZone(DateTimeZone.forTimeZone(getTimeZone()));
 					DateTime dateTime = fmt.parseDateTime(time);
 					return dateTime.toCalendar(getLocale());
 				} catch (Exception e2) {
@@ -473,7 +497,7 @@ public class Translator {
 						// zone
 						fmt = ISODateTimeFormat.dateHourMinuteSecond();
 						fmt.withLocale(getLocale());
-						fmt.withZone(DateTimeZone.getDefault());
+						fmt.withZone(DateTimeZone.forTimeZone(getTimeZone()));
 						DateTime dateTime = fmt.parseDateTime(time);
 						return dateTime.toCalendar(getLocale());
 					} catch (IllegalArgumentException e3) {
@@ -502,7 +526,7 @@ public class Translator {
 	public static String formatIso8601DateTime(long time) {
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 		fmt.withLocale(getLocale());
-		fmt.withZone(DateTimeZone.getDefault());
+		fmt.withZone(DateTimeZone.forTimeZone(getTimeZone()));
 		return fmt.print(time);
 	}
 
