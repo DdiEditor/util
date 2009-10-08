@@ -10,6 +10,7 @@ import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.XmlCursor.TokenType;
 import org.ddialliance.ddiftp.util.Config;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.ReflectionUtil;
@@ -172,11 +173,11 @@ public class XmlBeansUtil {
 	public static XmlObject setTextOnMixedElement(XmlObject xmlObject,
 			String text) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
-		
+
 		// insert new text
 		xmlCursor.toFirstContentToken();
 		xmlCursor.insertChars(text);
-		
+
 		// remove old text
 		String result = xmlCursor.getChars();
 		xmlCursor.removeChars(result.length());
@@ -204,11 +205,18 @@ public class XmlBeansUtil {
 	 */
 	public static String getTextOnMixedElement(XmlObject xmlObject) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
+		// toLastAttribute does not skip namespaces - so continue
+		// until none empty TEXT token
 		xmlCursor.toLastAttribute();
-		xmlCursor.toNextToken();
-		String result = xmlCursor.getChars();
+		TokenType token = xmlCursor.toNextToken();
+		String text = xmlCursor.getTextValue().trim();
+		while (!token.equals(XmlCursor.TokenType.TEXT)
+				|| (token.equals(XmlCursor.TokenType.TEXT) && text.length() == 0)) {
+			token = xmlCursor.toNextToken();
+			text = xmlCursor.getTextValue().trim();
+		}
 		xmlCursor.dispose();
-		return result;
+		return text;
 	}
 
 	/**
