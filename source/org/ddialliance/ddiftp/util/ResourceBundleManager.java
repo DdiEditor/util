@@ -1,9 +1,15 @@
 package org.ddialliance.ddiftp.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -118,6 +124,29 @@ public abstract class ResourceBundleManager extends ResourceBundle {
 		}
 	}
 
+	public static void addResourceBundleFromProperties(String baseName, Locale locale) {
+		String[] test = {
+				baseName + "_" + locale.getLanguage() + "_" + locale.getCountry() + "_"
+						+ locale.getVariant() + ".properties",
+				baseName + "_" + locale.getLanguage() + "_" + locale.getCountry()
+						+ ".properties",
+				baseName + "_" + locale.getLanguage() + ".properties",
+				baseName + ".properties" };
+		
+		File file;
+		for (int i = 0; i < test.length; i++) {
+			file = new File(test[i]);
+			if (file.exists()) {
+				try {
+					addResourceBundle(new PropertyResourceBundle(
+							new FileInputStream(file)));
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}
+		}
+	}
+	
 	/**
 	 * Default implementation of ResourceBundleManager
 	 */
