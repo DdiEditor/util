@@ -68,23 +68,30 @@ public class XmlBeansUtil {
 			throw new DDIFtpException("file.not.found", file.getAbsoluteFile(),
 					e);
 		}
-		return (T)openDDI(file, null, className);
+		return (T) openDDI(file, null, className);
 	}
 
 	/**
 	 * Open a DDI resource file or xml text
-	 * @param <T> of type XmlObject
-	 * @param ddi resource to open
-	 * @param ddiVersion version of DDI current 3.0
-	 * @param className name of DDI element if the form module.element ~ instance.DDIInstance
+	 * 
+	 * @param <T>
+	 *            of type XmlObject
+	 * @param ddi
+	 *            resource to open
+	 * @param ddiVersion
+	 *            version of DDI current 3.0
+	 * @param className
+	 *            name of DDI element if the form module.element ~
+	 *            instance.DDIInstance
 	 * @return xml object of type document
 	 * @throws DDIFtpException
 	 */
-	public static <T extends XmlObject> T openDDI(Object ddi, String ddiVersion,
-			String className) throws DDIFtpException {
+	public static <T extends XmlObject> T openDDI(Object ddi,
+			String ddiVersion, String className) throws DDIFtpException {
 		// check classname
-		if (className.indexOf(".")<0) {
-			throw new DDIFtpException("xmlbeanutil.open.classname", new Object[] {className});
+		if (className.indexOf(".") < 0) {
+			throw new DDIFtpException("xmlbeanutil.open.classname",
+					new Object[] { className });
 		}
 		className = Config.get(Config.DDI3_XMLBEANS_BASEPACKAGE) + className
 				+ "Document";
@@ -100,18 +107,18 @@ public class XmlBeansUtil {
 			obj = ReflectionUtil.invokeStaticMethod(className + "$Factory",
 					"parse", ddi, options);
 		} catch (Exception e) {
-				String errorResoure = null;
-				if (ddi instanceof File) {
-					errorResoure = ((File)ddi).getAbsolutePath();
-				} else if(ddi instanceof String){
-					errorResoure = (String)ddi;
-				} else {
-					errorResoure = "n/a";
-				}
-				DDIFtpException wrapedException = new DDIFtpException(
-						"xmlbeanutil.open.error", errorResoure);
-				wrapedException.setRealThrowable(e);
-				throw wrapedException;
+			String errorResoure = null;
+			if (ddi instanceof File) {
+				errorResoure = ((File) ddi).getAbsolutePath();
+			} else if (ddi instanceof String) {
+				errorResoure = (String) ddi;
+			} else {
+				errorResoure = "n/a";
+			}
+			DDIFtpException wrapedException = new DDIFtpException(
+					"xmlbeanutil.open.error", errorResoure);
+			wrapedException.setRealThrowable(e);
+			throw wrapedException;
 		}
 		return (T) obj;
 	}
@@ -165,10 +172,27 @@ public class XmlBeansUtil {
 	public static XmlObject setTextOnMixedElement(XmlObject xmlObject,
 			String text) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
-		xmlCursor.toLastAttribute();
-		xmlCursor.setTextValue(text);
+		
+		// insert new text
+		xmlCursor.toFirstContentToken();
+		xmlCursor.insertChars(text);
+		
+		// remove old text
+		String result = xmlCursor.getChars();
+		xmlCursor.removeChars(result.length());
 		xmlCursor.dispose();
+
 		return xmlObject;
+	}
+
+	public static void debugXmlCursor(XmlObject xmlObject) {
+		XmlCursor xmlCursor = xmlObject.newCursor();
+		while (!xmlCursor.toNextToken().isNone()) {
+			System.out.println("debug "
+					+ xmlCursor.currentTokenType().toString());
+			System.out.println("debug " + xmlCursor.toString());
+		}
+		xmlCursor.dispose();
 	}
 
 	/**
