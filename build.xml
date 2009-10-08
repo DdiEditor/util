@@ -38,8 +38,8 @@
 			<include name="xerecs/${version.xerecs}/*.jar" />
 			<include name="joda-time/${version.joda-time}/*.jar" />
 		</fileset>
-		<fileset dir="${ddi_3_0-xml-xmlbeans}">
-			<include name="*20080428*.jar" />
+		<fileset dir="${basedir}/../ddi-3-xmlbeans/xmllib">
+			<include name="*.jar" />
 		</fileset>
 		<pathelement path="${build.classes.dir}" />
 		<pathelement path="${testsrc.dir}" />
