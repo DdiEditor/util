@@ -7,7 +7,9 @@ import junit.framework.Assert;
 import org.apache.xmlbeans.XmlObject;
 import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
 import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceType;
+import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.LabelType;
 import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.StudyUnitType;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class XmlBeansUtilTest {
@@ -47,6 +49,17 @@ public class XmlBeansUtilTest {
 		String test = "Setting text on a mixed content element";
 		p = (org.w3.x1999.xhtml.PType)XmlBeansUtil.setTextOnMixedElement(p, test);
 		Assert.assertEquals(test, XmlBeansUtil.getTextOnMixedElement(p));
+	}
+	
+	@Test
+	public void setTextOnNewMixedElement() throws Exception {
+		LabelType label = LabelType.Factory.newInstance();
+		label.setLang("da");
+		System.out.println("Label set lang: \n"+label.xmlText());
+		String test = "Setting text on a mixed content element";
+		label = (LabelType)XmlBeansUtil.setTextOnMixedElement(label, test);
+		System.out.println("Label set text: \n"+label.xmlText());
+		Assert.assertEquals(test, XmlBeansUtil.getTextOnMixedElement(label));
 	}
 	
 	@Test
