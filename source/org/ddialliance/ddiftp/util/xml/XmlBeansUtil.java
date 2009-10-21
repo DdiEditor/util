@@ -271,4 +271,24 @@ public class XmlBeansUtil {
 
 		return null;
 	}
+	
+	/**
+	 * Get the value of an attribute by substringing whole xml text
+	 * @param xml 
+	 * @param attrQuery defined as 'attibuteName="'
+	 * @return attribute value
+	 */
+	public static String getXmlAttributeValue(String xml, String attrQuery) {
+		// Hack, prop with xmlbeans to handle qNames on <xml-fragment ....>
+		// xml objects. Fixed with simple string parsing.
+		int index, start, end;
+		index = xml.indexOf(attrQuery);
+		// guard
+		if (index == -1) {
+			return "";
+		}
+		start = index + attrQuery.length();
+		end = xml.indexOf("\"", start);
+		return xml.substring(start, end);
+	}
 }
