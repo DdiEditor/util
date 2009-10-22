@@ -5,12 +5,12 @@ import java.io.File;
 import junit.framework.Assert;
 
 import org.apache.xmlbeans.XmlObject;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.DataCollectionType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CategoryType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.VariableType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.MaintainableType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.DataCollectionType;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CategoryType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.VariableType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.MaintainableType;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.xml.Urn;
 import org.ddialliance.ddiftp.util.xml.XmlBeansUtil;

@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlCursor;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
 import org.junit.Before;
 import org.junit.Test;
 

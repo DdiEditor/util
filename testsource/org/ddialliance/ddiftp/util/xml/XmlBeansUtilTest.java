@@ -7,13 +7,13 @@ import java.io.File;
 import junit.framework.Assert;
 
 import org.apache.xmlbeans.XmlObject;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.AbstractDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.IdentifiedStructuredStringType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.LabelType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.StructuredStringType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.StudyUnitType;
+import org.ddialliance.ddi3.xml.xmlbeans.group.AbstractDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.IdentifiedStructuredStringType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.LabelType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.StructuredStringType;
+import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitType;
 import org.junit.Ignore;
 import org.junit.Test;
 
