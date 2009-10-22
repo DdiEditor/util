@@ -6,31 +6,30 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.archive.ArchiveDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.archive.ArchiveType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptualComponentDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptualComponentType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.DataCollectionDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.DataCollectionType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.GroupDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.GroupType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.ResourcePackageDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.ResourcePackageType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.BaseLogicalProductDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.LogicalProductDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.LogicalProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.NCubeLogicalProductDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.NCubeLogicalProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.PhysicalDataProductDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.PhysicalDataProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicalinstance.PhysicalInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicalinstance.PhysicalInstanceType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.StudyUnitDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.StudyUnitType;
+import org.ddialliance.ddi3.xml.xmlbeans.archive.ArchiveDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.archive.ArchiveType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptualComponentDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptualComponentType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.DataCollectionDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.DataCollectionType;
+import org.ddialliance.ddi3.xml.xmlbeans.group.GroupDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.group.GroupType;
+import org.ddialliance.ddi3.xml.xmlbeans.group.ResourcePackageDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.group.ResourcePackageType;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.BaseLogicalProductDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.LogicalProductDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.LogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.NCubeLogicalProductDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.NCubeLogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.PhysicalDataProductDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.PhysicalDataProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicalinstance.PhysicalInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.physicalinstance.PhysicalInstanceType;
+import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitType;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.xml.XmlBeansUtil;
 
@@ -115,7 +114,7 @@ public class ParserDDI3 {
 
 		if (groupedContent) {
 			for (GroupType group : getGroups()) {
-				for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.StudyUnitType studyUnitGroup : group
+				for (org.ddialliance.ddi3.xml.xmlbeans.group.StudyUnitType studyUnitGroup : group
 						.getStudyUnitList()) {
 					if (studyUnitGroup.getStudyUnit() != null) {
 						result.add(studyUnitGroup.getStudyUnit());
@@ -189,7 +188,7 @@ public class ParserDDI3 {
 
 		if (groupedContent) {
 			for (GroupType group : (writable?getGroups():groupList)) {
-				for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.ConceptType groupConcept : group
+				for (org.ddialliance.ddi3.xml.xmlbeans.group.ConceptType groupConcept : group
 						.getConceptsList()) {
 					if (groupConcept.getConceptualComponent() != null) {
 						result.add(groupConcept.getConceptualComponent());
@@ -199,7 +198,7 @@ public class ParserDDI3 {
 		}
 		
 		for (ResourcePackageType resourcePackage : (writable?getResourcePackages():resourcePackageList)) {
-			for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.ConceptType conceptGroup : resourcePackage.getConceptsList()) {
+			for (org.ddialliance.ddi3.xml.xmlbeans.group.ConceptType conceptGroup : resourcePackage.getConceptsList()) {
 				if (conceptGroup.getConceptualComponent() != null) {
 					result.add(conceptGroup.getConceptualComponent());
 				}
@@ -225,7 +224,7 @@ public class ParserDDI3 {
 
 		if (groupedContent) {
 			for (GroupType group : (writable?getGroups():groupList)) {
-				for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.DataCollectionType groupDataCollection : group
+				for (org.ddialliance.ddi3.xml.xmlbeans.group.DataCollectionType groupDataCollection : group
 						.getDataCollectionList()) {
 					if (groupDataCollection.getDataCollection() != null) {
 						dataCollectionList.add(groupDataCollection
@@ -236,7 +235,7 @@ public class ParserDDI3 {
 		}
 
 		for (ResourcePackageType resourcePackage : (writable?getResourcePackages():resourcePackageList)) {
-			for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.DataCollectionType groupDataCollection : resourcePackage
+			for (org.ddialliance.ddi3.xml.xmlbeans.group.DataCollectionType groupDataCollection : resourcePackage
 					.getDataCollectionList()) {
 				if (groupDataCollection.getDataCollection() != null) {
 					dataCollectionList.add(groupDataCollection
@@ -289,7 +288,7 @@ public class ParserDDI3 {
 
 		if (groupedContent) {
 			for (GroupType group : (writable?getGroups():groupList)) {
-				Iterator<org.ddialliance.ddi_3_0.xml.xmlbeans.group.LogicalProductType> iter = group
+				Iterator<org.ddialliance.ddi3.xml.xmlbeans.group.LogicalProductType> iter = group
 						.getLogicalProductList().iterator();
 				while (iter.hasNext()) {
 					result.add(iter.next().getBaseLogicalProduct());
@@ -298,7 +297,7 @@ public class ParserDDI3 {
 		}
 
 		for (ResourcePackageType resourcePackage : (writable?getResourcePackages():resourcePackageList)) {
-			Iterator<org.ddialliance.ddi_3_0.xml.xmlbeans.group.LogicalProductType> iter = resourcePackage
+			Iterator<org.ddialliance.ddi3.xml.xmlbeans.group.LogicalProductType> iter = resourcePackage
 					.getLogicalProductList().iterator();
 			while (iter.hasNext()) {
 				result.add(iter.next().getBaseLogicalProduct());
@@ -323,7 +322,7 @@ public class ParserDDI3 {
 
 		if (groupedContent) {
 			for (GroupType group : (writable?getGroups():groupList)) {
-				for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : group
+				for (org.ddialliance.ddi3.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : group
 						.getPhysicalDataProductList()) {
 					if (groupPhysicalDataProduct.getPhysicalDataProduct() != null) {
 						result.add(groupPhysicalDataProduct
@@ -334,7 +333,7 @@ public class ParserDDI3 {
 		}
 
 		for (ResourcePackageType resourcePackage : (writable?getResourcePackages():resourcePackageList)) {			
-			for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : resourcePackage
+			for (org.ddialliance.ddi3.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : resourcePackage
 					.getPhysicalDataProductList()) {
 				if (groupPhysicalDataProduct.getPhysicalDataProduct() != null) {
 					result.add(groupPhysicalDataProduct

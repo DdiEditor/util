@@ -7,58 +7,58 @@ import java.util.List;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.ConceptualComponentType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.GeographicLocationSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.GeographicStructureSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.UniverseSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.conceptualcomponent.UniverseType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.CodingType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.CollectionEventType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.ControlConstructSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.ControlConstructType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.DataCollectionType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.InstructionType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.InstrumentType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.InterviewerInstructionSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.MethodologyType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.QuestionItemType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.datacollection.QuestionSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.GroupType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.group.ResourcePackageType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.instance.DDIInstanceType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CategoryGroupType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CategorySchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CategoryType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CodeSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.CodeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.DataRelationshipType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.LogicalProductDocument;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.LogicalProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.LogicalRecordType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.RecordRelationshipType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.VariableSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.logicalproduct.VariableType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.BaseRecordLayoutType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.DataItemType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.GrossRecordStructureType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.PhysicalDataProductType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.PhysicalRecordSegmentType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.PhysicalStructureSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicaldataproduct.RecordLayoutSchemeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.physicalinstance.PhysicalInstanceType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.AbstractIdentifiableType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.ActionCodeType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.GeographicLocationType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.GeographicStructureType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.GeographyType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.IdentifiedStructuredStringType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.reusable.impl.MaintainableTypeImpl;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.StudyUnitType;
-import org.ddialliance.ddi_3_0.xml.xmlbeans.studyunit.impl.StudyUnitTypeImpl;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.ConceptualComponentType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.GeographicLocationSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.GeographicStructureSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.UniverseSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.conceptualcomponent.UniverseType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.CodingType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.CollectionEventType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.ControlConstructSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.ControlConstructType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.DataCollectionType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.InstructionType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.InstrumentType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.InterviewerInstructionSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.MethodologyType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.QuestionItemType;
+import org.ddialliance.ddi3.xml.xmlbeans.datacollection.QuestionSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.group.GroupType;
+import org.ddialliance.ddi3.xml.xmlbeans.group.ResourcePackageType;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.BaseLogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CategoryGroupType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CategorySchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CategoryType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CodeSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.CodeType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.DataRelationshipType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.LogicalProductDocument;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.LogicalProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.LogicalRecordType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.RecordRelationshipType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.VariableSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.logicalproduct.VariableType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.BaseRecordLayoutType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.DataItemType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.GrossRecordStructureType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.PhysicalDataProductType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.PhysicalRecordSegmentType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.PhysicalStructureSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicaldataproduct.RecordLayoutSchemeType;
+import org.ddialliance.ddi3.xml.xmlbeans.physicalinstance.PhysicalInstanceType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.AbstractIdentifiableType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.ActionCodeType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.GeographicLocationType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.GeographicStructureType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.GeographyType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.IdentifiedStructuredStringType;
+import org.ddialliance.ddi3.xml.xmlbeans.reusable.impl.MaintainableTypeImpl;
+import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitType;
+import org.ddialliance.ddi3.xml.xmlbeans.studyunit.impl.StudyUnitTypeImpl;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.ReflectionUtil;
 import org.ddialliance.ddiftp.util.log.Log;
@@ -138,7 +138,7 @@ public class GroupParserDDI3 extends ParserDDI3 {
 				newDDDIInstanceDocumentUrn.getMaintainableVersion());
 
 		// study
-		for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.StudyUnitType studyUnitGroup : group
+		for (org.ddialliance.ddi3.xml.xmlbeans.group.StudyUnitType studyUnitGroup : group
 				.getStudyUnitList()) {
 			if (UrnUtilDDI3.getUrn(studyUnitGroup.getStudyUnit()).toUrnString()
 					.equals(studyUrn)) {
@@ -222,21 +222,21 @@ public class GroupParserDDI3 extends ParserDDI3 {
 		newStudy.getNoteList().addAll(study.getNoteList());
 
 		// Concepts
-		for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.ConceptType groupConcept : group
+		for (org.ddialliance.ddi3.xml.xmlbeans.group.ConceptType groupConcept : group
 				.getConceptsList()) {
 			newStudy.getConceptualComponentList().add(
 					groupConcept.getConceptualComponent());
 		}
 
 		// add data collection
-		for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.DataCollectionType groupDataCollection : group
+		for (org.ddialliance.ddi3.xml.xmlbeans.group.DataCollectionType groupDataCollection : group
 				.getDataCollectionList()) {
 			newStudy.getDataCollectionList().add(
 					groupDataCollection.getDataCollection());
 		}
 
 		// add logical product
-		for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.LogicalProductType groupLocicalProduct : group
+		for (org.ddialliance.ddi3.xml.xmlbeans.group.LogicalProductType groupLocicalProduct : group
 				.getLogicalProductList()) {
 			BaseLogicalProductType baseLogicalProduct = groupLocicalProduct
 					.getBaseLogicalProduct();
@@ -255,7 +255,7 @@ public class GroupParserDDI3 extends ParserDDI3 {
 		}
 
 		// add physical data product
-		for (org.ddialliance.ddi_3_0.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : group
+		for (org.ddialliance.ddi3.xml.xmlbeans.group.PhysicalDataProductType groupPhysicalDataProduct : group
 				.getPhysicalDataProductList()) {
 			newStudy.getPhysicalDataProductList().add(
 					groupPhysicalDataProduct.getPhysicalDataProduct());
