@@ -16,6 +16,8 @@ public class DDIFtpException extends Exception {
 	/** Constructs an exception  */
 	public DDIFtpException(Exception e) {
 		super(e);
+		realThrowable = e;
+		log();
 	}
 	
 	/** Constructs an exception with a specified message */
