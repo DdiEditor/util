@@ -2,6 +2,7 @@ package org.ddialliance.ddiftp.util.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -271,11 +272,13 @@ public class XmlBeansUtil {
 
 		return null;
 	}
-	
+
 	/**
 	 * Get the value of an attribute by substringing whole xml text
-	 * @param xml 
-	 * @param attrQuery defined as 'attibuteName="'
+	 * 
+	 * @param xml
+	 * @param attrQuery
+	 *            defined as 'attibuteName="'
 	 * @return attribute value
 	 */
 	public static String getXmlAttributeValue(String xml, String attrQuery) {
@@ -290,5 +293,35 @@ public class XmlBeansUtil {
 		start = index + attrQuery.length();
 		end = xml.indexOf("\"", start);
 		return xml.substring(start, end);
+	}
+
+	public static Object getDefaultLangElement(List<?> list) {
+		String defaultLang = Translator.getLocale().getLanguage();
+		String tmpLang = null;
+		Object defaultObj = null;
+		for (Object obj : list) {
+			tmpLang = getXmlAttributeValue(obj.toString(), "lang=\"");
+			if (tmpLang.indexOf("en") > -1) {
+				defaultObj = obj;
+			}
+			if (tmpLang.indexOf(defaultLang) > -1) {
+				return obj;
+			}
+		}
+		return defaultObj;
+	}
+
+	public static XmlObject getNotTranslated(List<?> items) {
+		XmlOptions xmlOptions = new XmlOptions();
+		xmlOptions.setSavePrettyPrint();
+		XmlObject xmlObject = null;
+		for (Object item : items) {
+			if (!Boolean.parseBoolean(XmlBeansUtil.getXmlAttributeValue(
+					((XmlObject) item).xmlText(xmlOptions), "translated=\""))) {
+				xmlObject = (XmlObject) item;
+				// break;
+			}
+		}
+		return xmlObject;
 	}
 }
