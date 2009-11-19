@@ -3,11 +3,14 @@ package org.ddialliance.ddiftp.util.xml;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.xmlbeans.XmlBeans;
+import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -293,6 +296,27 @@ public class XmlBeansUtil {
 		start = index + attrQuery.length();
 		end = xml.indexOf("\"", start);
 		return xml.substring(start, end);
+	}
+
+	public static <T extends XmlObject> T addTranslationAttributes(
+			T xmlObject, String lang, boolean translated,
+			boolean translateable) throws DDIFtpException {
+		try {
+			ReflectionUtil.invokeMethod(xmlObject, "setTranslated", false,
+					true);
+//			ReflectionUtil.invokeMethod(xmlObject, "setTranslateable", false,
+//					translateable);
+			XmlBoolean xmlBoolean = org.apache.xmlbeans.XmlBoolean.Factory.newInstance();
+			xmlBoolean.setBooleanValue(translateable);
+//			ReflectionUtil.invokeMethod(xmlObject, "xsetTranslateable", false,
+//					xmlBoolean);
+			//xsetTranslatable(org.apache.xmlbeans.XmlBoolean translatable)
+			ReflectionUtil.invokeMethod(xmlObject, "setLang", false, lang);
+		} catch (Exception e) {
+			throw new DDIFtpException("Set translations args error on: {0}",
+					new Object[] { xmlObject.getClass().getName() }, e);
+		}
+		return xmlObject;
 	}
 
 	public static Object getDefaultLangElement(List<?> list) {
