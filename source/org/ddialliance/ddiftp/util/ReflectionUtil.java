@@ -82,15 +82,32 @@ public class ReflectionUtil {
 							params[i] = args[i].getClass().getInterfaces()[i];
 						}
 					} else {
-						if (args[i]==null) {
+						if (args[i] == null) {
 							params[i] = null;
 						} else {
-							params[i] = args[i].getClass();							
+							if (args[i] instanceof Integer)
+								params[i] = Integer.TYPE;
+							else if (args[i] instanceof Byte)
+								params[i] = Byte.TYPE;
+							else if (args[i] instanceof Short)
+								params[i] = Short.TYPE;
+							else if (args[i] instanceof Character)
+								params[i] = Character.TYPE;
+							else if (args[i] instanceof Long)
+								params[i] = Long.TYPE;
+							else if (args[i] instanceof Float)
+								params[i] = Float.TYPE;
+							else if (args[i] instanceof Double)
+								params[i] = Double.TYPE;
+							else if (args[i] instanceof Boolean)
+								params[i] = Boolean.TYPE;
+							else
+								params[i] = args[i].getClass();
 						}
 					}
 				}
 			}
-
+			
 			// retrieve method
 			Method m = obj.getClass().getMethod(methodName, params);
 
