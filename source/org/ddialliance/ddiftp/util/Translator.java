@@ -200,6 +200,22 @@ public class Translator {
 	}
 
 	/**
+	 * Retrieve the country code from the locale
+	 * 
+	 * @return country code defined by ISO-639, if the 2 letter code is void it
+	 *         defaults to the 3 letter definition of language codes defined in
+	 *         ISO-3166
+	 */
+	public static String getLocaleLanguage() {
+		Locale locale = getLocale();
+		String language = locale.getCountry();
+		if (language == null || language.equals("")) {
+			language = locale.getISO3Country();
+		}
+		return language;
+	}
+
+	/**
 	 * Retrieve time zone from configuration
 	 * 
 	 * @return time zone
