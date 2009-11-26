@@ -1,6 +1,10 @@
 Util
 A set of utility class to be used by other projects
 
+Module Version:
+Current module version is given by the property 'xmljar.version' of the
+'build.properties' property file. 
+
 Building:
 Setup:
     Edit the [util_home]/build.properties for location of ddi xmlbeans jar
