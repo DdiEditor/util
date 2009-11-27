@@ -11,7 +11,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class DocHandler extends DefaultHandler {
 	// change this magic version
 	// number to config loaded
-	private static String schemaVersion = "3_0";
+	private static String schemaVersion = "3_1";
 
 	public void startElement(String namespaceURI, String sName, String qName,
 			Attributes attrs) throws SAXException {
