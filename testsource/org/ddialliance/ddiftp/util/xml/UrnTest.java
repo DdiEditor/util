@@ -84,11 +84,11 @@ public class UrnTest {
 
 	@Test
 	public void parseUrn() throws Exception {
-		String urn1 = "urn:ddi:3.0:StudyUnit=dda.dk.ddi:id_1[0.1]";
-		String urn2 = "urn:ddi:3.0:StudyUnit.DataCollection=dda.dk.ddi:su_1[0.1].dd_1[0.1.1]";
-		String urn3 = "urn:ddi:3.0:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].qi_1[0.4.4]";
-		String urn4 = "urn:ddi:3.0:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].35";
-		String urn5 = "urn:ddi:3.0:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].qi_1[0.4.4].35";
+		String urn1 = "urn:ddi:3.1:StudyUnit=dda.dk.ddi:id_1[0.1]";
+		String urn2 = "urn:ddi:3.1:StudyUnit.DataCollection=dda.dk.ddi:su_1[0.1].dd_1[0.1.1]";
+		String urn3 = "urn:ddi:3.1:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].qi_1[0.4.4]";
+		String urn4 = "urn:ddi:3.1:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].35";
+		String urn5 = "urn:ddi:3.1:StudyUnit.QuestionItem=dda.dk.ddi:su_1[0.1].dd_1[0.1.1].qi_1[0.4.4].35";
 
 		Urn urn = new Urn();
 		urn.parseUrn(urn1);
