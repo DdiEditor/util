@@ -1,6 +1,5 @@
 package org.ddialliance.ddiftp.util.xml;
 
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,21 +9,14 @@ import org.ddialliance.ddiftp.util.Translator;
 import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
-import org.ddialliance.ddiftp.util.xml.ddi_3_0.UrnUtilDDI3;
 
 /**
  * Following the standard: <br>
- * urn=urn:ddi:3_0:<br>
- * <Maintainable Object Class.Object Class>=<Agency ID>:<br>
- * <ID of maintained object>[<Major Version>.<Minor Version>]. optional[{<ID of
- * versioned object>[<Major Version>.<Minor Version>].}2] optional[<ID of
- * contained object>]
+ * urn:ddi:[agency]:[maintainable element type].[maintainable id](:[versionable
+ * or identifiable element type].[versionable or identifiable id])?
  */
 public class Urn {
-	private static Log log = LogFactory.getLog(LogType.SYSTEM, Urn.class
-			.getName());
-	private String prefix = "ddi";
-	private String schemaVersion;
+	private static Log log = LogFactory.getLog(LogType.SYSTEM, Urn.class.getName());
 	private String identifingAgency;
 
 	private String maintainableElement = null;
@@ -32,31 +24,10 @@ public class Urn {
 	private String maintainableVersion;
 
 	private String containedElement;
-	private String versionableElementId;
-	private String versionableElementVersion;
-
-	private String nestedVersionableElementId;
-	private String nestedVersionableElementVersion;
-
 	private String containedElementId;
+	private String containedElementVersion;
 
 	public Urn() {
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public Urn(String prefix, String schemaVersion, String elementName,
-			String identifingAgency, String maintainableId,
-			String maintainableVersion, String elementVersion, String elementId) {
-		this.prefix = prefix;
-		this.schemaVersion = schemaVersion;
-		this.containedElement = elementName;
-		this.identifingAgency = identifingAgency;
-		this.maintainableId = maintainableId;
-		this.maintainableVersion = maintainableVersion;
-		this.versionableElementVersion = elementVersion;
-		this.versionableElementId = elementId;
 	}
 
 	/**
@@ -67,30 +38,20 @@ public class Urn {
 	 * @param maintainableElement
 	 * @param maintainableId
 	 * @param maintainableVersion
-	 * @param versionableElement
-	 * @param versionableElementId
-	 * @param versionableElementVersion
-	 * @param nestedVersionableElementId
-	 * @param nestedVersionableElementVersion
+	 * @param containedElement
 	 * @param containedElementId
+	 * @param containedElementVersion
 	 */
-	public Urn(String schemaVersion, String identifingAgency,
-			String maintainableElement, String maintainableId,
-			String maintainableVersion, String containedElement,
-			String versionableElementId, String versionableElementVersion,
-			String nestedVersionableElementId,
-			String nestedVersionableElementVersion, String containedElementId) {
-		this.schemaVersion = schemaVersion;
+	public Urn(String schemaVersion, String identifingAgency, String maintainableElement, String maintainableId,
+			String maintainableVersion, String containedElement, String containedElementId,
+			String containedElementVersion) {
 		this.identifingAgency = identifingAgency;
 		this.maintainableElement = maintainableElement;
 		this.maintainableId = maintainableId;
 		this.maintainableVersion = maintainableVersion;
 		this.containedElement = containedElement;
-		this.versionableElementId = versionableElementId;
-		this.versionableElementVersion = versionableElementVersion;
-		this.nestedVersionableElementId = nestedVersionableElementId;
-		this.nestedVersionableElementVersion = nestedVersionableElementVersion;
 		this.containedElementId = containedElementId;
+		this.containedElementVersion = containedElementVersion;
 	}
 
 	/**
@@ -104,68 +65,12 @@ public class Urn {
 		parseUrn(urnString);
 	}
 
-	public String getPrefix() {
-		return prefix;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public String getSchemaVersion() {
-		return schemaVersion;
-	}
-
-	public void setSchemaVersion(String schemaVersion) {
-		this.schemaVersion = schemaVersion;
-	}
-
-	public String getContainedElement() {
-		return containedElement;
-	}
-
-	public void setContainedElement(String containedElement) {
-		this.containedElement = containedElement;
-	}
-
 	public String getIdentifingAgency() {
 		return identifingAgency;
 	}
 
 	public void setIdentifingAgency(String identifingAgency) {
 		this.identifingAgency = identifingAgency;
-	}
-
-	public String getMaintainableId() {
-		return maintainableId;
-	}
-
-	public void setMaintainableId(String maintainableId) {
-		this.maintainableId = maintainableId;
-	}
-
-	public String getElementId() {
-		return versionableElementId;
-	}
-
-	public void setVersionableElementId(String versionableElementId) {
-		this.versionableElementId = versionableElementId;
-	}
-
-	public String getVersionableElementVersion() {
-		return versionableElementVersion;
-	}
-
-	public void setVersionableElementVersion(String versionableElementVersion) {
-		this.versionableElementVersion = versionableElementVersion;
-	}
-
-	public String getMaintainableVersion() {
-		return maintainableVersion;
-	}
-
-	public void setMaintainableVersion(String maintainableVersion) {
-		this.maintainableVersion = maintainableVersion;
 	}
 
 	public String getMaintainableElement() {
@@ -176,21 +81,28 @@ public class Urn {
 		this.maintainableElement = maintainableElement;
 	}
 
-	public String getNestedVersionableElementId() {
-		return nestedVersionableElementId;
+	public String getMaintainableId() {
+		return maintainableId;
 	}
 
-	public void setNestedVersionableElementId(String nestedVersionableElementId) {
-		this.nestedVersionableElementId = nestedVersionableElementId;
+	public void setMaintainableId(String maintainableId) {
+		this.maintainableId = maintainableId;
 	}
 
-	public String getNestedVersionableElementVersion() {
-		return nestedVersionableElementVersion;
+	public String getMaintainableVersion() {
+		return maintainableVersion;
 	}
 
-	public void setNestedVersionableElementVersion(
-			String nestedVersionableElementVersion) {
-		this.nestedVersionableElementVersion = nestedVersionableElementVersion;
+	public void setMaintainableVersion(String maintainableVersion) {
+		this.maintainableVersion = maintainableVersion;
+	}
+
+	public String getContainedElement() {
+		return containedElement;
+	}
+
+	public void setContainedElement(String containedElement) {
+		this.containedElement = containedElement;
 	}
 
 	public String getContainedElementId() {
@@ -201,10 +113,23 @@ public class Urn {
 		this.containedElementId = containedElementId;
 	}
 
-	public String getVersionableElementId() {
-		return versionableElementId;
+	public String getContainedElementVersion() {
+		return containedElementVersion;
 	}
 
+	public void setContainedElementVersion(String containedElementVersion) {
+		this.containedElementVersion = containedElementVersion;
+	}
+
+	/*
+[Uu][Rr][Nn]:
+[Dd][Dd][Ii]:
+agency [A-Za-z]+\.[A-Za-z][A-Za-z0-9\-]*
+element type [A-Z|a-z]+
+id [A-Z|a-z]+[A-Z|a-z|0-9|_|\-]*
+version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
+
+	 * */
 	public static boolean validateAgencyString(String agency) {
 		if (agency == null) {
 			return false;
@@ -227,8 +152,7 @@ public class Urn {
 		if (version == null) {
 			return false;
 		}
-		Pattern idPattern = Pattern
-				.compile("(\\d)+(\\.)+(\\d)+((\\.)+(\\d)+)*");
+		Pattern idPattern = Pattern.compile("(\\d)+(\\.)+(\\d)+((\\.)+(\\d)+)*");
 		Matcher matcher = idPattern.matcher(version);
 		return matcher.matches();
 	}
@@ -237,8 +161,7 @@ public class Urn {
 		if (id == null) {
 			return false;
 		}
-		Pattern idPattern = Pattern
-				.compile("([A-Z]|[a-z]|\\*|@|[0-9]|_|$|\\-)*");
+		Pattern idPattern = Pattern.compile("([A-Z]|[a-z]|\\*|@|[0-9]|_|$|\\-)*");
 		Matcher matcher = idPattern.matcher(id);
 		return matcher.matches();
 	}
@@ -264,130 +187,128 @@ public class Urn {
 		} else if (log.isDebugEnabled()) {
 			log.debug(urnString);
 		}
-		String tmp = null;
-
-		// object class
-		int index = urnString.indexOf(Config.get(Config.DDI3_XML_VERSION));
-		if (index < 0) {
-			throw new DDIFtpException("urn.schema.invalid", Config
-					.get(Config.DDI3_XML_VERSION), new Throwable());
-		}
+		String[] splitColon = urnString.split(":");
+		// 0 urn:
+		// 1 ddi:
+		// 2 us.icpsr:
+		// 3 DataCollection.DC_5698.2.4.0:
+		// 4 TimeMethod_1.1.0.0
 
 		// maintainable
-		int count = index + Config.get(Config.DDI3_XML_VERSION).length() + 1;
-		int endIndex = urnString.indexOf("=");
-		if (endIndex > -1) {
-			tmp = urnString.substring(count, endIndex);
-			int containedIndex = tmp.indexOf(".");
-			if (containedIndex > -1) {
-				setMaintainableElement(tmp.substring(0, containedIndex));
-				setContainedElement(tmp.substring(containedIndex + 1));
-			} else {
-				setMaintainableElement(tmp);
-			}
-			if (tmp.equals("")) {
-				throw new DDIFtpException("urn.class.invalid", tmp,
-						new Throwable());
-			}
-			tmp = null;
-		} else {
-			throw new DDIFtpException("urn.class.invalid", null,
-					new Throwable());
-		}
-
-		// agency id
-		index = endIndex + 1;
-		endIndex = urnString.indexOf(":", endIndex);
-		if (endIndex > -1) {
-			tmp = urnString.substring(index, endIndex);
-			setIdentifingAgency(tmp);
-			if (!Urn.validateAgencyString(tmp)) {
-				throw new DDIFtpException("urn.agency.invalid", tmp,
-						new Throwable());
-			}
-			tmp = null;
-		} else {
-			throw new DDIFtpException("urn.agency.invalid", "null",
-					new Throwable());
-		}
-
-		// maintainable id
-		tmp = urnString.substring(endIndex + 1);
-		String[] identifiables = tmp.split("\\]\\.");
-		for (int i = 0; i < identifiables.length; i++) {
-			IdVersion idVersion = splitIdVersion(identifiables[i]);
-
-			// maintainable
-			if (i == 0) {
-				setMaintainableId(idVersion.id);
-				setMaintainableVersion(idVersion.version);
-			}
-
-			// versionable
-			if (i == 1 && idVersion.version != null) {
-				setVersionableElementId(idVersion.id);
-				setVersionableElementVersion(idVersion.version);
-			} else if (i == 1) {
-				setContainedElementId(idVersion.id);
-			}
-
-			// nested versionable
-			if (i == 2 && idVersion.version != null) {
-				setNestedVersionableElementId(idVersion.id);
-				setNestedVersionableElementVersion(idVersion.version);
-			} else if (i == 2) {
-				setContainedElementId(idVersion.id);
-			}
-
-			// contained
-			if (i == 3) {
-				setContainedElementId(idVersion.id);
+		String[] maintainableSplit = splitColon[3].split("\\.");
+		maintainableElement = maintainableSplit[0];
+		maintainableId = maintainableSplit[1];
+		StringBuilder versionBuilder = new StringBuilder();
+		for (int i = 2; i < maintainableSplit.length; i++) {
+			versionBuilder.append(maintainableSplit[i]);
+			if (i < 4) {
+				versionBuilder.append(".");
 			}
 		}
+		maintainableVersion = versionBuilder.toString();
+		// validate maintainable
 
-		setSchemaVersion(Config.get(Config.DDI3_XML_VERSION));
+		// sub element
+		if (splitColon.length > 4) {
+			String[] containedSplit = splitColon[4].split("\\.");
+			containedElement = containedSplit[0];
+			containedElementId = containedSplit[1];
+			versionBuilder.delete(0, maintainableVersion.length());
+			versionBuilder = new StringBuilder();
+			for (int i = 2; i < containedSplit.length; i++) {
+				versionBuilder.append(containedSplit[i]);
+				if (i < 4) {
+					versionBuilder.append(".");
+				}
+			}
+			containedElementVersion = versionBuilder.toString();
+		}
+		// validate contained element
+		
+//		String tmp = null;
+//
+//		// object class
+//		int index = urnString.indexOf(Config.get(Config.DDI3_XML_VERSION));
+//		if (index < 0) {
+//			throw new DDIFtpException("urn.schema.invalid", Config.get(Config.DDI3_XML_VERSION), new Throwable());
+//		}
+//
+//		// maintainable
+//		int count = index + Config.get(Config.DDI3_XML_VERSION).length() + 1;
+//		int endIndex = urnString.lastIndexOf(":");
+//		if (endIndex > -1) {
+//			tmp = urnString.substring(count, endIndex);
+//			int containedIndex = tmp.indexOf(".");
+//			if (containedIndex > -1) {
+//				setMaintainableElement(tmp.substring(0, containedIndex));
+//				setContainedElement(tmp.substring(containedIndex + 1));
+//			} else {
+//				setMaintainableElement(tmp);
+//			}
+//			if (tmp.equals("")) {
+//				throw new DDIFtpException("urn.class.invalid", tmp, new Throwable());
+//			}
+//			tmp = null;
+//		} else {
+//			throw new DDIFtpException("urn.class.invalid", null, new Throwable());
+//		}
+//
+//		// agency id
+//		index = endIndex + 1;
+//		endIndex = urnString.indexOf(":", endIndex);
+//		if (endIndex > -1) {
+//			tmp = urnString.substring(index, endIndex);
+//			setIdentifingAgency(tmp);
+//			if (!Urn.validateAgencyString(tmp)) {
+//				throw new DDIFtpException("urn.agency.invalid", tmp, new Throwable());
+//			}
+//			tmp = null;
+//		} else {
+//			throw new DDIFtpException("urn.agency.invalid", "null", new Throwable());
+//		}
+
+//		// maintainable id
+//		tmp = urnString.substring(endIndex + 1);
+//		String[] identifiables = tmp.split("\\]\\.");
+//		for (int i = 0; i < identifiables.length; i++) {
+//			IdVersion idVersion = splitIdVersion(identifiables[i]);
+//
+//			// maintainable
+//			if (i == 0) {
+//				setMaintainableId(idVersion.id);
+//				setMaintainableVersion(idVersion.version);
+//			}
+//
+//			// versionable
+//			if (i == 1 && idVersion.version != null) {
+//				setVersionableElementId(idVersion.id);
+//				setVersionableElementVersion(idVersion.version);
+//			} else if (i == 1) {
+//				setContainedElementId(idVersion.id);
+//			}
+//
+//			// nested versionable
+//			if (i == 2 && idVersion.version != null) {
+//				setNestedVersionableElementId(idVersion.id);
+//				setNestedVersionableElementVersion(idVersion.version);
+//			} else if (i == 2) {
+//				setContainedElementId(idVersion.id);
+//			}
+//
+//			// contained
+//			if (i == 3) {
+//				setContainedElementId(idVersion.id);
+//			}
+//		}
+
+		
 
 		if (log.isDebugEnabled()) {
 			log.debug("Parsed urn: " + this);
 		}
 	}
 
-	public class IdVersion {
-		public String id;
-		public String version;
-
-		public IdVersion() {
-		};
-
-		public IdVersion(String id, String version) {
-			this.id = id;
-			this.version = version;
-		}
-	}
-
-	private IdVersion splitIdVersion(String idVersionStr)
-			throws DDIFtpException {
-		IdVersion idVersion = new IdVersion();
-		idVersionStr = idVersionStr.replaceAll("\\]", "");
-		int index = idVersionStr.indexOf("[");
-		if (index == -1) {
-			idVersion.id = idVersionStr;
-		} else {
-			idVersion.id = idVersionStr.substring(0, index - 1);
-			idVersion.version = idVersionStr.substring(index + 1, idVersionStr
-					.length());
-			if (!Urn.validateVersionString(idVersion.version)) {
-				throw new DDIFtpException("urn.version.invalid",
-						idVersion.version, new Throwable());
-			}
-		}
-
-		if (!Urn.validateIdString(idVersion.id)) {
-			throw new DDIFtpException("urn.id.invalid", idVersion.id,
-					new Throwable());
-		}
-		return idVersion;
-	}
+	
 
 	/**
 	 * Build formated URN string
@@ -403,11 +324,8 @@ public class Urn {
 
 		// header
 		result.append("urn");
-		result.append(":");
-		result.append(prefix);
-		result.append(":");
-		result.append(schemaVersion);
-		result.append(":");
+		result.append(":ddi:");
+		result.append(this.identifingAgency);
 
 		// element types
 		if (maintainableElement == null || maintainableElement.equals("")) {
@@ -426,8 +344,7 @@ public class Urn {
 		result.append(identifingAgency);
 		result.append(":");
 		if (!validateAgencyString(identifingAgency)) {
-			error.append(Translator.trans("urn.agency.invalid",
-					new Object[] { identifingAgency }));
+			error.append(Translator.trans("urn.agency.invalid", new Object[] { identifingAgency }));
 			error.append(" ");
 		}
 
@@ -435,56 +352,31 @@ public class Urn {
 		// maintain
 		result.append(maintainableId);
 		if (!validateIdString(maintainableId)) {
-			error.append(Translator.trans("urn.id.invalid",
-					new Object[] { maintainableId }));
+			error.append(Translator.trans("urn.id.invalid", new Object[] { maintainableId }));
 			error.append(" ");
 		}
 		result.append("[");
 		result.append(maintainableVersion);
 		if (!validateVersionString(maintainableVersion)) {
-			error.append(Translator.trans("urn.version.invalid",
-					new Object[] { maintainableVersion }));
+			error.append(Translator.trans("urn.version.invalid", new Object[] { maintainableVersion }));
 			error.append(" ");
 		}
 		result.append("]");
 
 		// versionable
-		if (versionableElementId != null || versionableElementVersion != null) {
+		if (containedElementId != null || containedElementVersion != null) {
 			result.append(".");
-			result.append(versionableElementId);
-			if (!validateIdString(versionableElementId)) {
-				error.append(Translator.trans("urn.id.invalid",
-						new Object[] { versionableElementId }));
+			result.append(containedElementId);
+			if (!validateIdString(containedElementId)) {
+				error.append(Translator.trans("urn.id.invalid", new Object[] { containedElementId }));
 				error.append(" ");
 			}
 
 			result.append("[");
-			result.append(versionableElementVersion);
+			result.append(containedElementVersion);
 			result.append("]");
-			if (!validateVersionString(versionableElementVersion)) {
-				error.append(Translator.trans("urn.version.invalid",
-						new Object[] { versionableElementVersion }));
-				error.append(" ");
-			}
-		}
-
-		// nested versionable
-		if (nestedVersionableElementId != null
-				|| nestedVersionableElementVersion != null) {
-			result.append(".");
-			result.append(nestedVersionableElementId);
-			if (!validateIdString(nestedVersionableElementId)) {
-				error.append(Translator.trans("urn.id.invalid",
-						new Object[] { nestedVersionableElementId }));
-				error.append(" ");
-			}
-
-			result.append("[");
-			result.append(nestedVersionableElementVersion);
-			result.append("]");
-			if (!validateVersionString(nestedVersionableElementVersion)) {
-				error.append(Translator.trans("urn.version.invalid",
-						new Object[] { nestedVersionableElementVersion }));
+			if (!validateVersionString(containedElementVersion)) {
+				error.append(Translator.trans("urn.version.invalid", new Object[] { containedElementVersion }));
 				error.append(" ");
 			}
 		}
@@ -494,8 +386,7 @@ public class Urn {
 			result.append(".");
 			result.append(containedElementId);
 			if (!validateIdString(containedElementId)) {
-				error.append(Translator.trans("urn.id.invalid",
-						new Object[] { containedElementId }));
+				error.append(Translator.trans("urn.id.invalid", new Object[] { containedElementId }));
 				error.append(" ");
 			}
 		}
@@ -512,36 +403,23 @@ public class Urn {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append("prefix: ");
-		result.append(prefix);
-		result.append(", schemaVersion: ");
-		result.append(schemaVersion);
 		result.append(", identifingAgency: ");
 		result.append(identifingAgency);
+
 		result.append("maintainableElement: ");
 		result.append(maintainableElement);
-		result.append(", containedElement: ");
-		result.append(containedElement);
-		result.append(
-
-		", maintainableId: ");
+		result.append(", maintainableId: ");
 		result.append(maintainableId);
 		result.append(", maintainableVersion: ");
 		result.append(maintainableVersion);
-		result.append(
 
-		", versionableElementId: ");
-		result.append(versionableElementId);
-		result.append(", versionableElementVersion: ");
-		result.append(versionableElementVersion
-
-		);
-		result.append(", nestedVersionableElementId: ");
-		result.append(nestedVersionableElementId);
-		result.append(", nestedVersionableElementVersion: ");
-		result.append(nestedVersionableElementVersion);
+		result.append(", containedElement: ");
+		result.append(containedElement);
 		result.append(", containedElementId: ");
 		result.append(containedElementId);
+		result.append(", containedElementVersion: ");
+		result.append(containedElementVersion);
+
 		return result.toString();
 	}
 }
