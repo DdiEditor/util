@@ -1,7 +1,6 @@
 package org.ddialliance.ddiftp.util.xml;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class UrnTest {
@@ -9,8 +8,7 @@ public class UrnTest {
 	@Test
 	public void nullUrn() throws Exception {
 		try {
-			Urn urn = new Urn(null, null, null, null, null, null, null, null,
-					null, null, null);
+			Urn urn = new Urn(null, null, null, null, null, null, null, null);				
 			urn.toUrnString();
 			Assert.fail();
 		} catch (Exception e) {
@@ -21,7 +19,7 @@ public class UrnTest {
 	@Test
 	public void maintained() throws Exception {
 		Urn urn = new Urn();
-		urn.setSchemaVersion("3.0");
+
 		urn.setIdentifingAgency("dda.dk.ddi");
 		urn.setMaintainableElement("StudyUnit");
 		urn.setMaintainableId("id_1");
@@ -32,53 +30,48 @@ public class UrnTest {
 	@Test
 	public void versioned() throws Exception {
 		Urn urn = new Urn();
-		urn.setSchemaVersion("3.0");
+
 		urn.setIdentifingAgency("dda.dk.ddi");
 		urn.setMaintainableElement("StudyUnit");
 		urn.setMaintainableId("su_1");
 		urn.setMaintainableVersion("0.1");
 
 		urn.setContainedElement("DataCollection");
-		urn.setVersionableElementId("dd_1");
-		urn.setVersionableElementVersion("0.1.1");
+		urn.setContainedElementId("dd_1");
+		urn.setContainedElementVersion("0.1.1");
 		System.out.println(urn.toUrnString());
 	}
 
 	@Test
 	public void nestedVersioned() throws Exception {
 		Urn urn = new Urn();
-		urn.setSchemaVersion("3.0");
+
 		urn.setIdentifingAgency("dda.dk.ddi");
 		urn.setMaintainableElement("StudyUnit");
 		urn.setMaintainableId("su_1");
 		urn.setMaintainableVersion("0.1");
 
 		urn.setContainedElement("QuestionItem");
-		urn.setVersionableElementId("dd_1");
-		urn.setVersionableElementVersion("0.1.1");
+		urn.setContainedElementId("dd_1");
+		urn.setContainedElementVersion("0.1.1");
 
-		urn.setNestedVersionableElementId("qi_1");
-		urn.setNestedVersionableElementVersion("0.4.4");
 		System.out.println(urn.toUrnString());
 	}
 
 	@Test
 	public void contained() throws Exception {
 		Urn urn = new Urn();
-		urn.setSchemaVersion("3.0");
+
 		urn.setIdentifingAgency("dda.dk.ddi");
 		urn.setMaintainableElement("StudyUnit");
 		urn.setMaintainableId("su_1");
 		urn.setMaintainableVersion("0.1");
 
 		urn.setContainedElement("QuestionItem");
-		urn.setVersionableElementId("dd_1");
-		urn.setVersionableElementVersion("0.1.1");
+		urn.setContainedElementId("dd_1");
+		urn.setContainedElementVersion("0.1.1");
 		urn.setContainedElementId("35");
 		System.out.println(urn.toUrnString());
-
-		urn.setNestedVersionableElementId("qi_1");
-		urn.setNestedVersionableElementVersion("0.4.4");
 		System.out.println(urn.toUrnString());
 	}
 
