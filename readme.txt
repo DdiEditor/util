@@ -1,5 +1,6 @@
 Module description:
-A set of utility class used by other modules in the ddieditor framework. 
+The util module consists of a set of utility class used by other modules 
+in the ddieditor framework. 
 
 Legal: 
 Copyright 2009 Danish Data Archive (http://www.dda.dk) 
@@ -21,16 +22,18 @@ along with Util. If not, see <http://www.gnu.org/licenses/>.
     
 Module Version:
 Current module version is given by the property 'xmljar.version' of the
-'build.properties' property file. 
+'build.properties' property file.
 
 Building:
 Setup:
-    Edit the [util_home]/build.properties for location of ddi xmlbeans jar
+The project 'lib-java' holding the XmlBeans jars needs to be checked out from
+source version control as weel at: ../[project_home]
+
 Build:
     [util_home] ant compile jar
 This generates a jar file in the [lib-java_home]/build directory
 
-Change log
+Change log:
 Version 0.5
  - Added file utils
  
