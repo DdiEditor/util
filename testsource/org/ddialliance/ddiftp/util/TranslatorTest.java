@@ -95,4 +95,9 @@ public class TranslatorTest {
 		Assert.assertEquals("P8Y4M27DT7H50M24S", Translator
 				.formatIso8601Duration(start.getMillis(), end.getMillis()));
 	}
+
+	@Test
+	public void getLanguage() throws Exception {
+		System.out.println(Translator.getLocaleLanguage());
+	}
 }
