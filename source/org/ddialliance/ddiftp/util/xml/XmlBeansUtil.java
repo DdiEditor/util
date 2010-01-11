@@ -30,7 +30,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * A collection of XmlBean utilities to access the DDI
  */
 public class XmlBeansUtil {
-	private static Log logSystem = LogFactory.getLog(LogType.SYSTEM, XmlBeansUtil.class);
+	private static Log logSystem = LogFactory.getLog(LogType.SYSTEM,
+			XmlBeansUtil.class);
 
 	/**
 	 * Open a DDI document
@@ -42,7 +43,8 @@ public class XmlBeansUtil {
 	 * @return xml object of type document
 	 * @throws DDIFtpException
 	 */
-	public static <T extends XmlObject> T openDDIDoc(File file) throws DDIFtpException {
+	public static <T extends XmlObject> T openDDIDoc(File file)
+			throws DDIFtpException {
 
 		// get first element
 		String className = null;
@@ -68,7 +70,8 @@ public class XmlBeansUtil {
 			// get the first element name
 			className = e.getMessage();
 		} catch (IOException e) {
-			throw new DDIFtpException("file.not.found", file.getAbsoluteFile(), e);
+			throw new DDIFtpException("file.not.found", file.getAbsoluteFile(),
+					e);
 		}
 		return (T) openDDI(file, null, className);
 	}
@@ -88,13 +91,15 @@ public class XmlBeansUtil {
 	 * @return xml object of type document
 	 * @throws DDIFtpException
 	 */
-	public static <T extends XmlObject> T openDDI(Object ddi, String ddiVersion, String className)
-			throws DDIFtpException {
+	public static <T extends XmlObject> T openDDI(Object ddi,
+			String ddiVersion, String className) throws DDIFtpException {
 		// check classname
 		if (className.indexOf(".") < 0) {
-			throw new DDIFtpException("xmlbeanutil.open.classname", new Object[] { className });
+			throw new DDIFtpException("xmlbeanutil.open.classname",
+					new Object[] { className });
 		}
-		className = Config.get(Config.DDI3_XMLBEANS_BASEPACKAGE) + className + "Document";
+		className = Config.get(Config.DDI3_XMLBEANS_BASEPACKAGE) + className
+				+ "Document";
 		if (logSystem.isDebugEnabled()) {
 			logSystem.debug("Classname: " + className);
 		}
@@ -104,7 +109,8 @@ public class XmlBeansUtil {
 		options.setLoadLineNumbers();
 		options.setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
 		try {
-			obj = ReflectionUtil.invokeStaticMethod(className + "$Factory", "parse", ddi, options);
+			obj = ReflectionUtil.invokeStaticMethod(className + "$Factory",
+					"parse", ddi, options);
 		} catch (Exception e) {
 			String errorResoure = null;
 			if (ddi instanceof File) {
@@ -114,14 +120,16 @@ public class XmlBeansUtil {
 			} else {
 				errorResoure = "n/a";
 			}
-			DDIFtpException wrapedException = new DDIFtpException("xmlbeanutil.open.error", errorResoure);
+			DDIFtpException wrapedException = new DDIFtpException(
+					"xmlbeanutil.open.error", errorResoure);
 			wrapedException.setRealThrowable(e);
 			throw wrapedException;
 		}
 		return (T) obj;
 	}
 
-	public static void saveDDIDoc(XmlObject xmlObject, File file) throws Exception {
+	public static void saveDDIDoc(XmlObject xmlObject, File file)
+			throws Exception {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -145,7 +153,8 @@ public class XmlBeansUtil {
 	 *            of type XmlObject
 	 * @return xml object
 	 */
-	public static <T extends XmlObject> T nodeToXmlObject(Class<? extends XmlObject> c, Node node) {
+	public static <T extends XmlObject> T nodeToXmlObject(
+			Class<? extends XmlObject> c, Node node) {
 		// XmlObject.Factory.parse(node) does not return proper mapping of
 		// child nodes. Work around:
 
@@ -165,7 +174,8 @@ public class XmlBeansUtil {
 	 *            to set
 	 * @return altered xml object
 	 */
-	public static XmlObject setTextOnMixedElement(XmlObject xmlObject, String text) {
+	public static XmlObject setTextOnMixedElement(XmlObject xmlObject,
+			String text) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
 
 		// insert new text
@@ -183,7 +193,8 @@ public class XmlBeansUtil {
 	public static void debugXmlCursor(XmlObject xmlObject) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
 		while (!xmlCursor.toNextToken().isNone()) {
-			System.out.println("debug " + xmlCursor.currentTokenType().toString());
+			System.out.println("debug "
+					+ xmlCursor.currentTokenType().toString());
 			System.out.println("debug " + xmlCursor.toString());
 		}
 		xmlCursor.dispose();
@@ -221,10 +232,13 @@ public class XmlBeansUtil {
 	 *            throwable reference to checking method
 	 * @throws DDIFtpException
 	 */
-	public static void instanceOfXmlBeanDocument(XmlObject xmlObject, Throwable throwable) throws DDIFtpException {
+	public static void instanceOfXmlBeanDocument(XmlObject xmlObject,
+			Throwable throwable) throws DDIFtpException {
 		if (xmlObject.getClass().getName().indexOf("Document") <= -1) {
-			DDIFtpException exception = new DDIFtpException("XmlBean: " + xmlObject.getClass().getName()
-					+ " must be of type: " + xmlObject.getDomNode().getLocalName() + "Document", throwable);
+			DDIFtpException exception = new DDIFtpException("XmlBean: "
+					+ xmlObject.getClass().getName() + " must be of type: "
+					+ xmlObject.getDomNode().getLocalName() + "Document",
+					throwable);
 			throw exception;
 		}
 	}
@@ -239,8 +253,8 @@ public class XmlBeansUtil {
 	 * @return xml object type
 	 * @throws Exception
 	 */
-	public static XmlObject getXmlObjectTypeFromXmlDocument(XmlObject xmlObject, Throwable throwable)
-			throws DDIFtpException {
+	public static XmlObject getXmlObjectTypeFromXmlDocument(
+			XmlObject xmlObject, Throwable throwable) throws DDIFtpException {
 		instanceOfXmlBeanDocument(xmlObject, throwable);
 
 		// retrieve local name of node
@@ -250,7 +264,8 @@ public class XmlBeansUtil {
 
 		// retrieve xml object type
 		try {
-			return (XmlObject) ReflectionUtil.invokeMethod(xmlObject, "get" + localName, false, null);
+			return (XmlObject) ReflectionUtil.invokeMethod(xmlObject, "get"
+					+ localName, false, null);
 		} catch (Exception e) {
 			throw new DDIFtpException("Error on xmlObjet get", e);
 		}
@@ -283,14 +298,24 @@ public class XmlBeansUtil {
 		return xml.substring(start, end);
 	}
 
-	public static <T extends XmlObject> T addTranslationAttributes(
-			T xmlObject, String lang, boolean translated,
-			boolean translateable) throws DDIFtpException {
+	/**
+	 * Add translation attributes: lang, translated, translateable to DDI elements 
+	 * @param <T> return type
+	 * @param xmlObject DDI element
+	 * @param lang 
+	 * @param translated 
+	 * @param translateable
+	 * @return DDI element with added attributes
+	 * @throws DDIFtpException
+	 */
+	public static <T extends XmlObject> T addTranslationAttributes(T xmlObject,
+			String lang, boolean translated, boolean translateable)
+			throws DDIFtpException {
 		try {
 			ReflectionUtil.invokeMethod(xmlObject, "setTranslated", false,
 					translated);
 			ReflectionUtil.invokeMethod(xmlObject, "setTranslatable", false,
-					translateable);			
+					translateable);
 			ReflectionUtil.invokeMethod(xmlObject, "setLang", false, lang);
 		} catch (Exception e) {
 			throw new DDIFtpException("Set translations args error on: {0}",
@@ -299,6 +324,11 @@ public class XmlBeansUtil {
 		return xmlObject;
 	}
 
+	/**
+	 * Return the element with the chosen specified language to display
+	 * @param list of elements to iterate
+	 * @return selected element
+	 */
 	public static Object getDefaultLangElement(List<?> list) {
 		String defaultLang = Translator.getLocale().getLanguage();
 		String tmpLang = null;
@@ -315,13 +345,24 @@ public class XmlBeansUtil {
 		return defaultObj;
 	}
 
+	/**
+	 * Defines if an element is of the chosen specified language to display
+	 * @param xmlObject to check
+	 * @return result
+	 */
+	public static boolean isDefaultLangElement(XmlObject xmlObject) {
+		return Translator.getLocale().getLanguage().equals(
+				getXmlAttributeValue(xmlObject.xmlText(), "lang=\""));
+
+	}
+	
 	public static XmlObject getNotTranslated(List<?> items) {
 		XmlOptions xmlOptions = new XmlOptions();
 		xmlOptions.setSavePrettyPrint();
 		XmlObject xmlObject = null;
 		for (Object item : items) {
-			if (!Boolean.parseBoolean(XmlBeansUtil.getXmlAttributeValue(((XmlObject) item).xmlText(xmlOptions),
-					"translated=\""))) {
+			if (!Boolean.parseBoolean(XmlBeansUtil.getXmlAttributeValue(
+					((XmlObject) item).xmlText(xmlOptions), "translated=\""))) {
 				xmlObject = (XmlObject) item;
 				// break;
 			}
