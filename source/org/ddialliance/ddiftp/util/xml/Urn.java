@@ -16,7 +16,8 @@ import org.ddialliance.ddiftp.util.log.LogType;
  * or identifiable element type].[versionable or identifiable id])?
  */
 public class Urn {
-	private static Log log = LogFactory.getLog(LogType.SYSTEM, Urn.class.getName());
+	private static Log log = LogFactory.getLog(LogType.SYSTEM, Urn.class
+			.getName());
 	private String identifingAgency;
 
 	private String maintainableElement = null;
@@ -42,9 +43,10 @@ public class Urn {
 	 * @param containedElementId
 	 * @param containedElementVersion
 	 */
-	public Urn(String schemaVersion, String identifingAgency, String maintainableElement, String maintainableId,
-			String maintainableVersion, String containedElement, String containedElementId,
-			String containedElementVersion) {
+	public Urn(String schemaVersion, String identifingAgency,
+			String maintainableElement, String maintainableId,
+			String maintainableVersion, String containedElement,
+			String containedElementId, String containedElementVersion) {
 		this.identifingAgency = identifingAgency;
 		this.maintainableElement = maintainableElement;
 		this.maintainableId = maintainableId;
@@ -121,15 +123,20 @@ public class Urn {
 		this.containedElementVersion = containedElementVersion;
 	}
 
-	/*
-[Uu][Rr][Nn]:
-[Dd][Dd][Ii]:
-agency [A-Za-z]+\.[A-Za-z][A-Za-z0-9\-]*
-element type [A-Z|a-z]+
-id [A-Z|a-z]+[A-Z|a-z|0-9|_|\-]*
-version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
+	public static boolean validateLocalNameString(String localName) {
+		if (localName == null || localName.equals("")) {
+			return false;
+		}
+		Pattern idPattern = Pattern.compile("([a-zA-Z]*)");
+		Matcher matcher = idPattern.matcher(localName);
+		return matcher.matches();
+	}
 
-	 * */
+	/*
+	 * [Uu][Rr][Nn]: [Dd][Dd][Ii]: agency [A-Za-z]+\.[A-Za-z][A-Za-z0-9\-]*
+	 * element type [A-Z|a-z]+ id [A-Z|a-z]+[A-Z|a-z|0-9|_|\-]* version
+	 * ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
+	 */
 	public static boolean validateAgencyString(String agency) {
 		if (agency == null) {
 			return false;
@@ -152,7 +159,8 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 		if (version == null) {
 			return false;
 		}
-		Pattern idPattern = Pattern.compile("(\\d)+(\\.)+(\\d)+((\\.)+(\\d)+)*");
+		Pattern idPattern = Pattern
+				.compile("(\\d)+(\\.)+(\\d)+((\\.)+(\\d)+)*");
 		Matcher matcher = idPattern.matcher(version);
 		return matcher.matches();
 	}
@@ -161,7 +169,8 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 		if (id == null) {
 			return false;
 		}
-		Pattern idPattern = Pattern.compile("([A-Z]|[a-z]|\\*|@|[0-9]|_|$|\\-)*");
+		Pattern idPattern = Pattern
+				.compile("([A-Z]|[a-z]|\\*|@|[0-9]|_|$|\\-)*");
 		Matcher matcher = idPattern.matcher(id);
 		return matcher.matches();
 	}
@@ -180,24 +189,52 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 	 *             if URN string is not well formed
 	 */
 	public void parseUrn(String urnString) throws DDIFtpException {
+		if (log.isDebugEnabled()) {
+			log.debug("Urn to parse: " + urnString);
+		}
+		StringBuilder error = new StringBuilder();
+
 		if (urnString == null) {
 			throw new DDIFtpException("exception.null", "URN");
 		} else if (urnString.equals("")) {
 			throw new DDIFtpException("exception.null", "URN");
-		} else if (log.isDebugEnabled()) {
-			log.debug(urnString);
 		}
 		String[] splitColon = urnString.split(":");
+		// urn:ddi:dda.dk.ddi:StudyUnit.su_1.3.0.0:QuestionItem.dd_1.0.1.1
 		// 0 urn:
 		// 1 ddi:
 		// 2 us.icpsr:
 		// 3 DataCollection.DC_5698.2.4.0:
 		// 4 TimeMethod_1.1.0.0
 
-		// maintainable
+		// agency
+		if (!validateAgencyString(splitColon[2])) {
+			error.append(Translator.trans("urn.agency.invalid",
+					new Object[] { splitColon[2] }));
+			error.append(" ");
+		}
+		identifingAgency = splitColon[2];
+
+		// maintainable split
 		String[] maintainableSplit = splitColon[3].split("\\.");
+
+		// maintainable element
+		if (!validateLocalNameString(maintainableSplit[0])) {
+			error.append(Translator.trans("urn.maintained.invalid",
+					new Object[] { maintainableSplit[0] }));
+			error.append(" ");
+		}
 		maintainableElement = maintainableSplit[0];
+
+		// maintainable id
+		if (!validateIdString(maintainableSplit[1])) {
+			error.append(Translator.trans("urn.id.invalid",
+					new Object[] { maintainableSplit[1] }));
+			error.append(" ");
+		}
 		maintainableId = maintainableSplit[1];
+
+		// maintainable version
 		StringBuilder versionBuilder = new StringBuilder();
 		for (int i = 2; i < maintainableSplit.length; i++) {
 			versionBuilder.append(maintainableSplit[i]);
@@ -206,13 +243,33 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 			}
 		}
 		maintainableVersion = versionBuilder.toString();
-		// validate maintainable
+		if (!validateVersionString(maintainableVersion)) {
+			error.append(Translator.trans("urn.version.invalid",
+					new Object[] { maintainableVersion }));
+			error.append(" ");
+		}
 
-		// sub element
+		// contained element split
 		if (splitColon.length > 4) {
 			String[] containedSplit = splitColon[4].split("\\.");
+
+			// contained element
+			if (!validateLocalNameString(containedSplit[0])) {
+				error.append(Translator.trans("urn.contained.invalid",
+						new Object[] { containedSplit[0] }));
+				error.append(" ");
+			}
 			containedElement = containedSplit[0];
+
+			// contained id
+			if (!validateIdString(containedSplit[1])) {
+				error.append(Translator.trans("urn.id.invalid",
+						new Object[] { containedSplit[1] }));
+				error.append(" ");
+			}
 			containedElementId = containedSplit[1];
+
+			// contained version
 			versionBuilder.delete(0, maintainableVersion.length());
 			versionBuilder = new StringBuilder();
 			for (int i = 2; i < containedSplit.length; i++) {
@@ -222,93 +279,23 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 				}
 			}
 			containedElementVersion = versionBuilder.toString();
+			if (!validateVersionString(containedElementVersion)) {
+				error.append(Translator.trans("urn.version.invalid",
+						new Object[] { containedElementVersion }));
+				error.append(" ");
+			}
 		}
-		// validate contained element
-		
-//		String tmp = null;
-//
-//		// object class
-//		int index = urnString.indexOf(Config.get(Config.DDI3_XML_VERSION));
-//		if (index < 0) {
-//			throw new DDIFtpException("urn.schema.invalid", Config.get(Config.DDI3_XML_VERSION), new Throwable());
-//		}
-//
-//		// maintainable
-//		int count = index + Config.get(Config.DDI3_XML_VERSION).length() + 1;
-//		int endIndex = urnString.lastIndexOf(":");
-//		if (endIndex > -1) {
-//			tmp = urnString.substring(count, endIndex);
-//			int containedIndex = tmp.indexOf(".");
-//			if (containedIndex > -1) {
-//				setMaintainableElement(tmp.substring(0, containedIndex));
-//				setContainedElement(tmp.substring(containedIndex + 1));
-//			} else {
-//				setMaintainableElement(tmp);
-//			}
-//			if (tmp.equals("")) {
-//				throw new DDIFtpException("urn.class.invalid", tmp, new Throwable());
-//			}
-//			tmp = null;
-//		} else {
-//			throw new DDIFtpException("urn.class.invalid", null, new Throwable());
-//		}
-//
-//		// agency id
-//		index = endIndex + 1;
-//		endIndex = urnString.indexOf(":", endIndex);
-//		if (endIndex > -1) {
-//			tmp = urnString.substring(index, endIndex);
-//			setIdentifingAgency(tmp);
-//			if (!Urn.validateAgencyString(tmp)) {
-//				throw new DDIFtpException("urn.agency.invalid", tmp, new Throwable());
-//			}
-//			tmp = null;
-//		} else {
-//			throw new DDIFtpException("urn.agency.invalid", "null", new Throwable());
-//		}
-
-//		// maintainable id
-//		tmp = urnString.substring(endIndex + 1);
-//		String[] identifiables = tmp.split("\\]\\.");
-//		for (int i = 0; i < identifiables.length; i++) {
-//			IdVersion idVersion = splitIdVersion(identifiables[i]);
-//
-//			// maintainable
-//			if (i == 0) {
-//				setMaintainableId(idVersion.id);
-//				setMaintainableVersion(idVersion.version);
-//			}
-//
-//			// versionable
-//			if (i == 1 && idVersion.version != null) {
-//				setVersionableElementId(idVersion.id);
-//				setVersionableElementVersion(idVersion.version);
-//			} else if (i == 1) {
-//				setContainedElementId(idVersion.id);
-//			}
-//
-//			// nested versionable
-//			if (i == 2 && idVersion.version != null) {
-//				setNestedVersionableElementId(idVersion.id);
-//				setNestedVersionableElementVersion(idVersion.version);
-//			} else if (i == 2) {
-//				setContainedElementId(idVersion.id);
-//			}
-//
-//			// contained
-//			if (i == 3) {
-//				setContainedElementId(idVersion.id);
-//			}
-//		}
-
-		
 
 		if (log.isDebugEnabled()) {
 			log.debug("Parsed urn: " + this);
 		}
+		// error construct
+		if (error.length() > 0) {
+			DDIFtpException e = new DDIFtpException(error.toString());
+			e.setRealThrowable(new Throwable());
+			throw e;
+		}
 	}
-
-	
 
 	/**
 	 * Build formated URN string
@@ -325,72 +312,71 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 		// header
 		result.append("urn");
 		result.append(":ddi:");
-		result.append(this.identifingAgency);
 
-		// element types
-		if (maintainableElement == null || maintainableElement.equals("")) {
-			error.append(Translator.trans("urn.maintained.null"));
+		// agency
+		if (!validateAgencyString(identifingAgency)) {
+			error.append(Translator.trans("urn.agency.invalid",
+					new Object[] { identifingAgency }));
+			error.append(" ");
+		}
+		result.append(identifingAgency);
+		result.append(":");
+
+		// maintainable element, local name
+		if (!validateLocalNameString(maintainableElement)) {
+			error.append(Translator.trans("urn.maintained.invalid",
+					new Object[] { maintainableElement }));
 			error.append(" ");
 		}
 		result.append(maintainableElement);
 
-		if (containedElement != null && !containedElement.equals("")) {
-			result.append(".");
-			result.append(containedElement);
-		}
-
-		// agency
-		result.append("=");
-		result.append(identifingAgency);
-		result.append(":");
-		if (!validateAgencyString(identifingAgency)) {
-			error.append(Translator.trans("urn.agency.invalid", new Object[] { identifingAgency }));
-			error.append(" ");
-		}
-
-		// id n' version
-		// maintain
-		result.append(maintainableId);
+		// maintainable element, id
 		if (!validateIdString(maintainableId)) {
-			error.append(Translator.trans("urn.id.invalid", new Object[] { maintainableId }));
+			error.append(Translator.trans("urn.id.invalid",
+					new Object[] { maintainableId }));
 			error.append(" ");
 		}
-		result.append("[");
-		result.append(maintainableVersion);
+		result.append(".");
+		result.append(maintainableId);
+
+		// maintainable element, version
 		if (!validateVersionString(maintainableVersion)) {
-			error.append(Translator.trans("urn.version.invalid", new Object[] { maintainableVersion }));
+			error.append(Translator.trans("urn.version.invalid",
+					new Object[] { maintainableVersion }));
 			error.append(" ");
 		}
-		result.append("]");
+		result.append(".");
+		result.append(maintainableVersion);
 
-		// versionable
-		if (containedElementId != null || containedElementVersion != null) {
-			result.append(".");
-			result.append(containedElementId);
-			if (!validateIdString(containedElementId)) {
-				error.append(Translator.trans("urn.id.invalid", new Object[] { containedElementId }));
+		// contained element
+		if (containedElement != null && !containedElement.equals("")) {
+			if (!validateLocalNameString(containedElement)) {
+				error.append(Translator.trans("urn.contained.invalid"));
 				error.append(" ");
 			}
+			result.append(":");
+			result.append(containedElement);
 
-			result.append("[");
-			result.append(containedElementVersion);
-			result.append("]");
+			// contained element, id
+			if (!validateIdString(containedElementId)) {
+				error.append(Translator.trans("urn.id.invalid",
+						new Object[] { containedElementId }));
+				error.append(" ");
+			}
+			result.append(".");
+			result.append(containedElementId);
+
+			// contained element, version
 			if (!validateVersionString(containedElementVersion)) {
-				error.append(Translator.trans("urn.version.invalid", new Object[] { containedElementVersion }));
+				error.append(Translator.trans("urn.version.invalid",
+						new Object[] { containedElementVersion }));
 				error.append(" ");
 			}
-		}
-
-		// contained
-		if (containedElementId != null && !containedElementId.equals("")) {
 			result.append(".");
-			result.append(containedElementId);
-			if (!validateIdString(containedElementId)) {
-				error.append(Translator.trans("urn.id.invalid", new Object[] { containedElementId }));
-				error.append(" ");
-			}
+			result.append(containedElementVersion);
 		}
 
+		// error construct
 		if (error.length() > 0) {
 			log.error(result.toString());
 			DDIFtpException e = new DDIFtpException(error.toString());
@@ -403,10 +389,10 @@ version ([0-9]+\.[0-9]+\.[0-9]+|[0-9]+\.[0-9]+\.L|[0-9]+\.L\.L|L\.L\.L)
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(", identifingAgency: ");
+		result.append("IdentifingAgency: ");
 		result.append(identifingAgency);
 
-		result.append("maintainableElement: ");
+		result.append(", maintainableElement: ");
 		result.append(maintainableElement);
 		result.append(", maintainableId: ");
 		result.append(maintainableId);
