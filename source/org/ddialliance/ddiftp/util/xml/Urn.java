@@ -3,7 +3,6 @@ package org.ddialliance.ddiftp.util.xml;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.ddialliance.ddiftp.util.Config;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.Translator;
 import org.ddialliance.ddiftp.util.log.Log;
@@ -11,9 +10,11 @@ import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
 
 /**
- * Following the standard: <br>
- * urn:ddi:[agency]:[maintainable element type].[maintainable id](:[versionable
- * or identifiable element type].[versionable or identifiable id])?
+ * DDI URN: urn: ddi:<br>
+ * the maintenance agency:, the maintainable object class, id, and version
+ * number, <br>
+ * followed by the specific object class, id, and version number (if the object
+ * is not maintainable)
  */
 public class Urn {
 	private static Log log = LogFactory.getLog(LogType.SYSTEM, Urn.class
@@ -147,10 +148,10 @@ public class Urn {
 	}
 
 	/**
-	 * Version number of the referenced object, expressed as a two-part numeric
-	 * string composed of two positive integers separated by a period. The first
-	 * number indicates a major version, the second a minor one: 1.0.
-	 * Optionally, a third integer may indicate sub-version: 1.0.2.
+	 * Version number of the referenced object, expressed as a three-part
+	 * numeric string composed of three positive integers separated by a period.
+	 * The first number indicates a major version, the second a minor one the
+	 * third integer indicate the minor minor version: 1.0.2.
 	 * 
 	 * @param version
 	 * @return
@@ -159,8 +160,9 @@ public class Urn {
 		if (version == null) {
 			return false;
 		}
+		// 
 		Pattern idPattern = Pattern
-				.compile("(\\d)+(\\.)+(\\d)+((\\.)+(\\d)+)*");
+				.compile("([0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+\\.L|[0-9]+\\.L\\.L|L\\.L\\.L)");
 		Matcher matcher = idPattern.matcher(version);
 		return matcher.matches();
 	}
@@ -176,12 +178,7 @@ public class Urn {
 	}
 
 	/**
-	 * Parse an urn following the standard: <br>
-	 * urn=urn:ddi:3_0:<br>
-	 * <Maintainable Object Class.Object Class>=<Agency ID>:<br>
-	 * <ID of maintained object>[<Major Version>.<Minor Version>]. optional[{<ID
-	 * of versioned object>[<Major Version>.<Minor Version>].}2] optional[<ID of
-	 * contained object>]
+	 * Parse an DDI URN 
 	 * 
 	 * @param urnString
 	 *            to parse
@@ -270,19 +267,21 @@ public class Urn {
 			containedElementId = containedSplit[1];
 
 			// contained version
-			versionBuilder.delete(0, maintainableVersion.length());
-			versionBuilder = new StringBuilder();
-			for (int i = 2; i < containedSplit.length; i++) {
-				versionBuilder.append(containedSplit[i]);
-				if (i < 4) {
-					versionBuilder.append(".");
+			if (containedSplit.length > 2) {
+				versionBuilder.delete(0, maintainableVersion.length());
+				versionBuilder = new StringBuilder();
+				for (int i = 2; i < containedSplit.length; i++) {
+					versionBuilder.append(containedSplit[i]);
+					if (i < 4) {
+						versionBuilder.append(".");
+					}
 				}
-			}
-			containedElementVersion = versionBuilder.toString();
-			if (!validateVersionString(containedElementVersion)) {
-				error.append(Translator.trans("urn.version.invalid",
-						new Object[] { containedElementVersion }));
-				error.append(" ");
+				containedElementVersion = versionBuilder.toString();
+				if (!validateVersionString(containedElementVersion)) {
+					error.append(Translator.trans("urn.version.invalid",
+							new Object[] { containedElementVersion }));
+					error.append(" ");
+				}
 			}
 		}
 
@@ -367,13 +366,17 @@ public class Urn {
 			result.append(containedElementId);
 
 			// contained element, version
-			if (!validateVersionString(containedElementVersion)) {
-				error.append(Translator.trans("urn.version.invalid",
-						new Object[] { containedElementVersion }));
-				error.append(" ");
+			if (containedElementVersion != null
+					&& !containedElementVersion.equals("")) {
+
+				if (!validateVersionString(containedElementVersion)) {
+					error.append(Translator.trans("urn.version.invalid",
+							new Object[] { containedElementVersion }));
+					error.append(" ");
+				}
+				result.append(".");
+				result.append(containedElementVersion);
 			}
-			result.append(".");
-			result.append(containedElementVersion);
 		}
 
 		// error construct

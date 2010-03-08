@@ -1,7 +1,6 @@
 package org.ddialliance.ddiftp.util.xml;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class UrnTest {
@@ -11,10 +10,9 @@ public class UrnTest {
 		try {
 			Urn urn = new Urn(null, null, null, null, null, null, null, null);				
 			urn.toUrnString();
-			//Assert.fail();
+			Assert.fail();
 		} catch (Exception e) {
 			// do nothing
-			e.printStackTrace();
 		}
 	}
 
@@ -47,7 +45,9 @@ public class UrnTest {
 	@Test
 	public void parseUrn() throws Exception {
 		String urn1 = "urn:ddi:dda.dk.ddi:StudyUnit.su_1.1.0.1";
-		String urn2 = "urn:ddi:dda.dk.ddi:StudyUnit.su_1.1.0.1:QuestionItem.qi_1.0.1.1";
+		String urn2 = "urn:ddi:dda.dk.ddi:StudyUnit.su_1.1.0.1:QuestionItem.qi_1";
+		String urn3 = "urn:ddi:dda.dk.ddi:StudyUnit.su_1.1.0.1:QuestionItem.qi_1.0.1.1";
+		String urn4 = "urn:ddi:dda.dk.ddi:StudyUnit.su_1.L.L.L:QuestionItem.qi_1.L.L.L";
 
 		Urn urn = new Urn();
 		urn.parseUrn(urn1);
@@ -56,5 +56,13 @@ public class UrnTest {
 		urn = new Urn();
 		urn.parseUrn(urn2);
 		Assert.assertEquals("Not same!", urn2, urn.toUrnString());
+		
+		urn = new Urn();
+		urn.parseUrn(urn3);
+		Assert.assertEquals("Not same!", urn3, urn.toUrnString());
+		
+		urn = new Urn();
+		urn.parseUrn(urn4);
+		Assert.assertEquals("Not same!", urn4, urn.toUrnString());
 	}
 }
