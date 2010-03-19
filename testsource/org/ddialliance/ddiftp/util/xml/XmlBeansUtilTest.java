@@ -1,5 +1,7 @@
 package org.ddialliance.ddiftp.util.xml;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import junit.framework.Assert;
@@ -13,11 +15,12 @@ import org.ddialliance.ddi3.xml.xmlbeans.instance.DDIInstanceType;
 import org.ddialliance.ddi3.xml.xmlbeans.reusable.LabelType;
 import org.ddialliance.ddi3.xml.xmlbeans.reusable.StructuredStringType;
 import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitType;
+import org.ddialliance.ddieditor.model.lightxmlobject.LightXmlObjectType;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class XmlBeansUtilTest {
-	@Ignore
+	@Test
 	public void openSaveDDIDoc() throws Exception {
 		XmlObject xmlObject = XmlBeansUtil.openDDIDoc(new File(
 				"resources/testfile_2.xml"));
@@ -35,7 +38,7 @@ public class XmlBeansUtilTest {
 		// xmlObject.xmlText().trim(), testXmlObject.xmlText().trim());
 	}
 
-	@Ignore
+	@Test
 	public void nodeToXmlObject() throws Exception {
 		DDIInstanceDocument doc = (DDIInstanceDocument) XmlBeansUtil
 				.openDDIDoc(new File("resources/testfile_2.xml"));
@@ -46,7 +49,7 @@ public class XmlBeansUtilTest {
 		Assert.assertNotNull(studyUnitType);
 	}
 
-	@Ignore
+	@Test
 	public void setTextOnMixedElement() throws Exception {
 		DDIInstanceDocument doc = (DDIInstanceDocument) XmlBeansUtil
 				.openDDIDoc(new File("resources/testfile_2.xml"));
@@ -58,7 +61,7 @@ public class XmlBeansUtilTest {
 		Assert.assertEquals(test, XmlBeansUtil.getTextOnMixedElement(p));
 	}
 
-	@Ignore
+	@Test
 	public void setTextOnNewMixedElement() throws Exception {
 		LabelType label = LabelType.Factory.newInstance();
 		label.setLang("da");
@@ -67,7 +70,7 @@ public class XmlBeansUtilTest {
 		Assert.assertEquals(test, XmlBeansUtil.getTextOnMixedElement(label));
 	}
 
-	@Ignore
+	@Test
 	public void setTextOnMixedElementWithNamespace() throws Exception {
 		String xml = "<Abstract xmlns=\"ddi:group:3_0\" id=\"ABSTRACT\"><Content xmlns=\"ddi:reusable:3_0\">Study description not available.</Content></Abstract>";
 		String text = "new text";
@@ -78,7 +81,7 @@ public class XmlBeansUtilTest {
 		Assert.assertEquals(text, XmlBeansUtil.getTextOnMixedElement(result));
 	}
 
-	@Ignore
+	@Test
 	public void instanceOfXmlBeanDocument() throws Exception {
 		DDIInstanceDocument doc = (DDIInstanceDocument) XmlBeansUtil
 				.openDDIDoc(new File("resources/testfile_2.xml"));
@@ -89,7 +92,7 @@ public class XmlBeansUtilTest {
 		}
 	}
 
-	@Ignore
+	@Test
 	public void getXmlObjectTypeFromXmlDocument() throws Exception {
 		DDIInstanceDocument doc = (DDIInstanceDocument) XmlBeansUtil
 				.openDDIDoc(new File("resources/testfile_2.xml"));
@@ -100,8 +103,33 @@ public class XmlBeansUtilTest {
 
 	@Test
 	public void addTranslationAttributes() throws Exception {
-		DynamicTextType displayText = DisplayTextDocument.Factory.newInstance().addNewDisplayText();		
-		displayText = XmlBeansUtil.addTranslationAttributes(displayText, "da", true, true);
+		DynamicTextType displayText = DisplayTextDocument.Factory.newInstance()
+				.addNewDisplayText();
+		displayText = XmlBeansUtil.addTranslationAttributes(displayText, "da",
+				true, true);
 		System.out.println(displayText);
+	}
+
+	@Test
+	public void getXmlAttributeValue() throws Exception {
+		LightXmlObjectType lightXmlObject = LightXmlObjectType.Factory
+				.newInstance();
+
+		// version not set
+		String result = XmlBeansUtil.getXmlAttributeValue(lightXmlObject
+				.toString(), "version=\"");
+		Assert.assertEquals("Version not set!", null, result);
+
+		// version set as null
+		lightXmlObject.setVersion(null);
+		result = XmlBeansUtil.getXmlAttributeValue(lightXmlObject.toString(),
+				"version=\"");
+		Assert.assertEquals("Version set as null!", null, result);
+
+		// version set as empty string
+		lightXmlObject.setVersion("");
+		result = XmlBeansUtil.getXmlAttributeValue(lightXmlObject.toString(),
+				"version=\"");
+		Assert.assertEquals("Version set as empty string!", null, result);
 	}
 }
