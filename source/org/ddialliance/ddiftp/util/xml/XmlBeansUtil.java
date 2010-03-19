@@ -291,11 +291,16 @@ public class XmlBeansUtil {
 		index = xml.indexOf(attrQuery);
 		// guard
 		if (index == -1) {
-			return "";
+			return null;
 		}
 		start = index + attrQuery.length();
 		end = xml.indexOf("\"", start);
-		return xml.substring(start, end);
+		String result = xml.substring(start, end);
+		// guard
+		if (result.equals("")) {
+			return null;
+		}
+		return result;
 	}
 
 	/**
