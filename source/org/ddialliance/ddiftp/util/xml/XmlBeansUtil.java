@@ -340,6 +340,9 @@ public class XmlBeansUtil {
 		Object defaultObj = null;
 		for (Object obj : list) {
 			tmpLang = getXmlAttributeValue(obj.toString(), "lang=\"");
+			if (tmpLang==null) {
+				return obj;
+			}
 			if (tmpLang.indexOf("en") > -1) {
 				defaultObj = obj;
 			}
