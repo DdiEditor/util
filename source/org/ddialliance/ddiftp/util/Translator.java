@@ -517,11 +517,20 @@ public class Translator {
 						DateTime dateTime = fmt.parseDateTime(time);
 						return dateTime.toCalendar(getLocale());
 					} catch (IllegalArgumentException e3) {
-						throw new DDIFtpException(
-								"translate.timeformat.error",
-								new Object[] { time,
-										"'-'? yyyy '-' mm '-' dd 'T' hh ':' mm ':' ss ('.' s+)? (zzzzzz)?" },
-								e);
+						try {
+							fmt = ISODateTimeFormat.dateParser();
+							fmt.withLocale(getLocale());
+							fmt.withZone(DateTimeZone
+									.forTimeZone(getTimeZone()));
+							DateTime dateTime = fmt.parseDateTime(time);
+							return dateTime.toCalendar(getLocale());
+						} catch (Exception e4) {
+							throw new DDIFtpException(
+									"translate.timeformat.error",
+									new Object[] { time,
+											"'-'? yyyy '-' mm '-' dd 'T' hh ':' mm ':' ss ('.' s+)? (zzzzzz)?" },
+									e);
+						}
 					}
 				}
 			}
