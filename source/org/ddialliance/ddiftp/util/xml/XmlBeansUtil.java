@@ -304,11 +304,15 @@ public class XmlBeansUtil {
 	}
 
 	/**
-	 * Add translation attributes: lang, translated, translateable to DDI elements 
-	 * @param <T> return type
-	 * @param xmlObject DDI element
-	 * @param lang 
-	 * @param translated 
+	 * Add translation attributes: lang, translated, translateable to DDI
+	 * elements
+	 * 
+	 * @param <T>
+	 *            return type
+	 * @param xmlObject
+	 *            DDI element
+	 * @param lang
+	 * @param translated
 	 * @param translateable
 	 * @return DDI element with added attributes
 	 * @throws DDIFtpException
@@ -331,16 +335,22 @@ public class XmlBeansUtil {
 
 	/**
 	 * Return the element with the chosen specified language to display
-	 * @param list of elements to iterate
+	 * 
+	 * @param list
+	 *            of elements to iterate
 	 * @return selected element
 	 */
 	public static Object getDefaultLangElement(List<?> list) {
+		if (list == null) { // guard
+			return null;
+		}
+
 		String defaultLang = Translator.getLocale().getLanguage();
 		String tmpLang = null;
 		Object defaultObj = null;
 		for (Object obj : list) {
 			tmpLang = getXmlAttributeValue(obj.toString(), "lang=\"");
-			if (tmpLang==null) {
+			if (tmpLang == null) {
 				return obj;
 			}
 			if (tmpLang.indexOf("en") > -1) {
@@ -355,7 +365,9 @@ public class XmlBeansUtil {
 
 	/**
 	 * Defines if an element is of the chosen specified language to display
-	 * @param xmlObject to check
+	 * 
+	 * @param xmlObject
+	 *            to check
 	 * @return result
 	 */
 	public static boolean isDefaultLangElement(XmlObject xmlObject) {
@@ -363,7 +375,7 @@ public class XmlBeansUtil {
 				getXmlAttributeValue(xmlObject.xmlText(), "lang=\""));
 
 	}
-	
+
 	public static XmlObject getNotTranslated(List<?> items) {
 		XmlOptions xmlOptions = new XmlOptions();
 		xmlOptions.setSavePrettyPrint();
