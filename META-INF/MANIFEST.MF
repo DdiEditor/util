@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: util
 Bundle-SymbolicName: util
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.7.0
 Bundle-ClassPath: util.jar,
  junit/4.4/junit.jar,
  log4j/1.2.15/log4j-1.2.15.jar,
@@ -19,5 +19,5 @@ Bundle-ClassPath: util.jar,
 Export-Package: org.ddialliance.ddiftp.util,
  org.ddialliance.ddiftp.util.log;uses:="org.apache.log4j",
  org.ddialliance.ddiftp.util.xml;uses:="org.ddialliance.ddi_3_0.xml.xmlbeans.instance"
-Require-Bundle: lib-java;bundle-version="1.0.0"
+Require-Bundle: lib-java;bundle-version="0.1.0"
 Import-Package: org.osgi.framework
