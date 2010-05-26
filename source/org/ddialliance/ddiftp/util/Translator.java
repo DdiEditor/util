@@ -208,9 +208,9 @@ public class Translator {
 	 */
 	public static String getLocaleLanguage() {
 		Locale locale = getLocale();
-		String language = locale.getCountry();
+		String language = locale.getLanguage();
 		if (language == null || language.equals("")) {
-			language = locale.getISO3Country();
+			language = locale.getLanguage();
 		}
 		return language;
 	}
