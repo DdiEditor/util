@@ -1,10 +1,8 @@
 package org.ddialliance.ddiftp.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -14,8 +12,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
@@ -23,7 +19,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.ddialliance.ddiftp.util.ResourceBundleManager.ResourceBundleManagerImpl;
 import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
@@ -202,9 +197,9 @@ public class Translator {
 	/**
 	 * Retrieve the country code from the locale
 	 * 
-	 * @return country code defined by ISO-639, if the 2 letter code is void it
-	 *         defaults to the 3 letter definition of language codes defined in
-	 *         ISO-3166
+	 * @return country code defined by ISO-639-2, if the 2 letter code is void
+	 *         it defaults to the 3 letter definition of language codes defined
+	 *         in ISO-639-3
 	 */
 	public static String getLocaleLanguage() {
 		Locale locale = getLocale();
@@ -396,6 +391,10 @@ public class Translator {
 	 */
 	public static String trans(String key, Object arg0, Object arg1, Object arg2) {
 		return trans(key, new Object[] { arg0, arg1, arg2 });
+	}
+
+	public static String transLang(String langCode) {
+		return getLocale().getDisplayLanguage(new Locale(langCode));
 	}
 
 	/**
