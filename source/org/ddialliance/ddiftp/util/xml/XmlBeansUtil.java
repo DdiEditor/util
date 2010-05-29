@@ -349,7 +349,7 @@ public class XmlBeansUtil {
 				return obj;
 			}
 		}
-		return (defaultObj == null ? fallback : defaultLang);
+		return (defaultObj == null ? fallback : defaultObj);
 	}
 
 	/**
