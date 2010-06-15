@@ -79,13 +79,13 @@ public class TranslatorTest {
 		iso8601Time = "2008-12-31T00:00:00.000";
 		result = Translator.formatIso8601DateTime(iso8601Time);
 		Assert.assertEquals(calendar, result);
-		
+
 		iso8601Time = "2008-12-20";
-		try {
-			result = Translator.formatIso8601DateTime(iso8601Time);
-		} catch (Exception e) {
-			throw e;
-		}
+		result = Translator.formatIso8601DateTime(iso8601Time);
+		System.out.println(result.getTime());
+		
+		iso8601Time = "2008-12";
+		result = Translator.formatIso8601DateTime(iso8601Time);
 	}
 
 	@Test
