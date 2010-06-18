@@ -19,5 +19,6 @@ Bundle-ClassPath: util.jar,
 Export-Package: org.ddialliance.ddiftp.util,
  org.ddialliance.ddiftp.util.log;uses:="org.apache.log4j",
  org.ddialliance.ddiftp.util.xml;uses:="org.ddialliance.ddi_3_0.xml.xmlbeans.instance"
-Require-Bundle: lib-java;bundle-version="0.1.0"
+Require-Bundle: lib-java;bundle-version="0.1.0",
+ org.eclipse.osgi
 Import-Package: org.osgi.framework
