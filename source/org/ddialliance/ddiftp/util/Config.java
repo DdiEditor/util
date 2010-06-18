@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
@@ -12,6 +11,9 @@ import java.util.Properties;
 
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
+import org.ddialliance.ddiftp.util.osgi.Activator;
+import org.eclipse.osgi.framework.adaptor.ClassLoaderDelegate;
+import org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader;
 
 public class Config {
 	private static Properties properties = new Properties();
@@ -62,13 +64,35 @@ public class Config {
 					.info(
 							"System property: ddiftp.config is empty. No injection class used for configuration");
 		} else {
+			// class load config
+			Class subConfig = null;
 			try {
-				Class subConfig = Config.class.getClassLoader().loadClass(
+				subConfig = Config.class.getClassLoader().loadClass(
 						ddiftpConfigClassName);
-				Method m = subConfig.getMethod("init", null);
-				m.invoke(null, null);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				try {
+					// osgi config class loading
+					ClassLoaderDelegate loader = ((DefaultClassLoader) Activator.class
+							.getClassLoader()).getDelegate();
+					subConfig = loader.findClass(ddiftpConfigClassName);
+				} catch (Exception e2) {
+					LogFactory.getLog(LogType.EXCEPTION, Config.class).error(
+							"Suggested config: " + ddiftpConfigClassName
+									+ " is not found!", e2);
+				}
+			}
+
+			// invoke init
+			if (subConfig != null) {
+				try {
+					Method m = subConfig.getMethod("init", null);
+					m.invoke(null, null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				LogFactory.getLog(LogType.SYSTEM, Config.class).warn(
+						"Using default config: " + Config.class.getName());
 			}
 		}
 
@@ -77,8 +101,8 @@ public class Config {
 				properties.load(new FileInputStream(new File(CONFIG_FILE)));
 			} else if (new File("resources" + File.separator + CONFIG_FILE)
 					.exists()) {
-				properties.load(new FileInputStream(new File("resources" + File.separator
-						+ CONFIG_FILE)));
+				properties.load(new FileInputStream(new File("resources"
+						+ File.separator + CONFIG_FILE)));
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println("Couldn't find " + CONFIG_FILE);
