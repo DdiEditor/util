@@ -394,6 +394,10 @@ public class Translator {
 	}
 
 	public static String transLang(String langCode) {
+		String nill = "";
+		if (langCode == null || langCode.equals(nill)) {
+			return nill;
+		}
 		return getLocale().getDisplayLanguage(new Locale(langCode));
 	}
 
