@@ -217,10 +217,18 @@ public class XmlBeansUtil {
 		// until none empty TEXT token
 		xmlCursor.toLastAttribute();
 		TokenType token = xmlCursor.toNextToken();
-		if (token.equals(TokenType.END)) {
+		if (token.equals(TokenType.END) || token.equals(TokenType.ENDDOC)) {
 			return "";
 		}
-		String text = xmlCursor.getTextValue().trim();
+
+		String text = null;
+		try {
+			System.out.println(token);
+			text = xmlCursor.getTextValue().trim();
+		} catch (IllegalMonitorStateException e) {
+			return "";
+		}
+
 		while (!token.equals(XmlCursor.TokenType.TEXT)
 				|| (token.equals(XmlCursor.TokenType.TEXT) && text.length() == 0)) {
 			token = xmlCursor.toNextToken();
@@ -232,6 +240,10 @@ public class XmlBeansUtil {
 
 	public static XmlObject getElementInElementStructure(String localName,
 			XmlObject xmlObject) {
+		if (localName == null || localName.equals("")) {
+			return xmlObject;
+		}
+
 		XmlCursor xmlCursor = xmlObject.newCursor();
 		XmlObject result = null;
 		while (!xmlCursor.toNextToken().isNone()) {
@@ -385,10 +397,11 @@ public class XmlBeansUtil {
 				}
 				fallback = obj;
 			}
-			if (tmpLang.indexOf("en") > -1) {
+
+			if (tmpLang != null && tmpLang.indexOf("en") > -1) {
 				defaultObj = obj;
 			}
-			if (tmpLang.indexOf(defaultLang) > -1) {
+			if (tmpLang != null && tmpLang.indexOf(defaultLang) > -1) {
 				return obj;
 			}
 		}
