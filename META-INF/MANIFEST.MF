@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: util
 Bundle-SymbolicName: util
-Bundle-Version: 0.7.0
+Bundle-Version: 0.7.1
 Bundle-ClassPath: util.jar,
  junit/4.4/junit.jar,
  log4j/1.2.15/log4j-1.2.15.jar,
