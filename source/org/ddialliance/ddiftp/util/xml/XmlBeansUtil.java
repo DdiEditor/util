@@ -228,6 +228,10 @@ public class XmlBeansUtil {
 		} catch (IllegalMonitorStateException e) {
 			return "";
 		}
+		
+		if (token.equals(XmlCursor.TokenType.START) && text.length() == 0) {
+			return "";
+		}
 
 		while (!token.equals(XmlCursor.TokenType.TEXT)
 				|| (token.equals(XmlCursor.TokenType.TEXT) && text.length() == 0)) {
