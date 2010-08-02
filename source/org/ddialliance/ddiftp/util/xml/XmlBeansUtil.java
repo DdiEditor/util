@@ -3,14 +3,11 @@ package org.ddialliance.ddiftp.util.xml;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.xmlbeans.XmlBeans;
-import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -373,7 +370,7 @@ public class XmlBeansUtil {
 	}
 
 	/**
-	 * Return the element with the chosen specified language to display
+	 * Return the element with the local language to display
 	 * 
 	 * @param list
 	 *            of elements to iterate
@@ -381,22 +378,39 @@ public class XmlBeansUtil {
 	 */
 	public static Object getDefaultLangElement(List<?> list)
 			throws DDIFtpException {
+		return getLangElement(Translator.getLocale().getLanguage(), list);
+	}
+	
+	/**
+	 * Return the element with the chosen specified language to display
+	 * 
+	 * @param displayLang
+	 * @param list
+	 *          of elements to iterate
+	 * @return selected element
+	 */
+	public static Object getLangElement(String displayLang, List<?> list)
+			throws DDIFtpException {
 		if (list == null) { // guard
 			return null;
 		}
 
-		String defaultLang = Translator.getLocale().getLanguage();
 		String tmpLang = null;
 		Object defaultObj = null;
 		Object fallback = null;
 		for (Object obj : list) {
 			tmpLang = getXmlAttributeValue(obj.toString(), "lang=\"");
 			if (tmpLang == null) {
+				if (list.size() > 1) {
+					// only single elements with no lang attribute is accepted
+					throw new DDIFtpException("Elements without 'lang' attribute not allowed in list",
+							new Throwable());
+				}
 				if (fallback != null) {
 					// if two or more elements do not have any lang attr
 					// no choice is possible
 					throw new DDIFtpException(
-							"Two or more elements do not have any lang attr no choice is possible",
+							"Two or more elements do not have any 'lang' attribute. No choice is possible",
 							new Throwable());
 				}
 				fallback = obj;
@@ -405,7 +419,7 @@ public class XmlBeansUtil {
 			if (tmpLang != null && tmpLang.indexOf("en") > -1) {
 				defaultObj = obj;
 			}
-			if (tmpLang != null && tmpLang.indexOf(defaultLang) > -1) {
+			if (tmpLang != null && tmpLang.indexOf(displayLang) > -1) {
 				return obj;
 			}
 		}
