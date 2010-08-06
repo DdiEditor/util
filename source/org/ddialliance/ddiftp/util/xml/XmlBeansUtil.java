@@ -224,7 +224,6 @@ public class XmlBeansUtil {
 
 		String text = null;
 		try {
-			System.out.println(token);
 			text = xmlCursor.getTextValue().trim();
 		} catch (IllegalMonitorStateException e) {
 			return "";
