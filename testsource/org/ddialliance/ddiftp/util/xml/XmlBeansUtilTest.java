@@ -1,7 +1,5 @@
 package org.ddialliance.ddiftp.util.xml;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
 import junit.framework.Assert;
@@ -131,5 +129,16 @@ public class XmlBeansUtilTest {
 		result = XmlBeansUtil.getXmlAttributeValue(lightXmlObject.toString(),
 				"version=\"");
 		Assert.assertEquals("Version set as empty string!", null, result);
+	}
+
+	@Test
+	public void addXsiAttributes() throws Exception {
+		DDIInstanceDocument ddiInstanceDoc = DDIInstanceDocument.Factory
+				.newInstance();
+		ddiInstanceDoc.addNewDDIInstance();
+		XmlBeansUtil.addXsiAttributes(ddiInstanceDoc);
+		String xsi = XmlBeansUtil.getXmlAttributeValue(ddiInstanceDoc.xmlText(), "xmlns:xsi=\"");
+		String xsiSchemaLocation = XmlBeansUtil.getXmlAttributeValue(ddiInstanceDoc.xmlText(), "xsi:schemaLocation=\"");
+		//System.out.println(ddiInstanceDoc.getDDIInstance());
 	}
 }
