@@ -381,10 +381,10 @@ public class XmlBeansUtil {
             return getLangElement(Translator.getLocale().getLanguage(), list);
     }
 
-
 	/**
 	 * Return the element with the chosen specified language to display
 	 * 
+	 * @param displayLang
 	 * @param list
 	 *            of elements to iterate
 	 * @return selected element
@@ -400,6 +400,7 @@ public class XmlBeansUtil {
 		Object fallback = null;
 		for (Object obj : list) {
 			tmpLang = getXmlAttributeValue(obj.toString(), "lang=\"");
+			fallback = obj;
 			if (tmpLang == null) {
 				fallback = obj;
 			}
@@ -453,5 +454,24 @@ public class XmlBeansUtil {
 								"schemaLocation", "xsi"),
 						"ddi:instance:3_1 http://www.ddialliance.org/sites/default/files/schema/ddi3.1/instance.xsd");
 		cursor.dispose();
+	}
+
+	/**
+	 * Replaces special characters ~ &, <, >, ", ' are not allowed in xml content
+	 * @param xml to replace
+	 * @return replaced xml
+	 */
+	public static String replaceSpecialCharcters(String xml) {
+		// 1. & - &amp;
+		// 2. < - &lt;
+		// 3. > - &gt;
+		// 4. " - &quot;
+		// 5. ' - &#39;
+		String[] key = {"&", "<", ">", "\"", "'"};
+		String[] replace = {"&amp;" ,"&lt", "&gt;", "&quot;", "&#39;" };
+		for (int i = 0; i < replace.length; i++) {
+			xml = xml.replaceAll(key[i], replace[i]);
+		}
+		return xml;
 	}
 }
