@@ -3,15 +3,12 @@ package org.ddialliance.ddiftp.util.xml;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.xmlbeans.XmlBeans;
-import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -123,6 +120,21 @@ public class XmlBeansUtil {
 			}
 			DDIFtpException wrapedException = new DDIFtpException(
 					"xmlbeanutil.open.error", errorResoure);
+			wrapedException.setRealThrowable(e);
+			throw wrapedException;
+		}
+		return (T) obj;
+	}
+
+	public static <T extends XmlObject> T convertFragment(XmlObject xmlObject,
+			Class clazz) throws DDIFtpException {
+		Object obj = null;
+		try {
+			obj = ReflectionUtil.invokeStaticMethod(clazz.getName()
+					+ "$Factory", "parse", xmlObject.xmlText());
+		} catch (Exception e) {
+			DDIFtpException wrapedException = new DDIFtpException(
+					"xmlbeanutil.open.error", "na");
 			wrapedException.setRealThrowable(e);
 			throw wrapedException;
 		}
@@ -368,18 +380,17 @@ public class XmlBeansUtil {
 		return xmlObject;
 	}
 
-	
-    /**
-     * Return the element with the local language to display
-     * 
-     * @param list
-     *            of elements to iterate
-     * @return selected element
-     */
-    public static Object getDefaultLangElement(List<?> list)
-                    throws DDIFtpException {
-            return getLangElement(Translator.getLocale().getLanguage(), list);
-    }
+	/**
+	 * Return the element with the local language to display
+	 * 
+	 * @param list
+	 *            of elements to iterate
+	 * @return selected element
+	 */
+	public static Object getDefaultLangElement(List<?> list)
+			throws DDIFtpException {
+		return getLangElement(Translator.getLocale().getLanguage(), list);
+	}
 
 	/**
 	 * Return the element with the chosen specified language to display
@@ -457,8 +468,11 @@ public class XmlBeansUtil {
 	}
 
 	/**
-	 * Replaces special characters ~ &, <, >, ", ' are not allowed in xml content
-	 * @param xml to replace
+	 * Replaces special characters ~ &, <, >, ", ' are not allowed in xml
+	 * content
+	 * 
+	 * @param xml
+	 *            to replace
 	 * @return replaced xml
 	 */
 	public static String replaceSpecialCharcters(String xml) {
@@ -467,8 +481,8 @@ public class XmlBeansUtil {
 		// 3. > - &gt;
 		// 4. " - &quot;
 		// 5. ' - &#39;
-		String[] key = {"&", "<", ">", "\"", "'"};
-		String[] replace = {"&amp;" ,"&lt", "&gt;", "&quot;", "&#39;" };
+		String[] key = { "&", "<", ">", "\"", "'" };
+		String[] replace = { "&amp;", "&lt", "&gt;", "&quot;", "&#39;" };
 		for (int i = 0; i < replace.length; i++) {
 			xml = xml.replaceAll(key[i], replace[i]);
 		}
