@@ -2,6 +2,7 @@ package org.ddialliance.ddiftp.util;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -409,8 +410,8 @@ public class Translator {
 	 * @return formatted timestamp
 	 */
 	public static synchronized String format(Timestamp timestamp) {
-		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(Config
-				.get(Config.FORMAT_TIMESTAMP));
+		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(
+				Config.get(Config.FORMAT_TIMESTAMP));
 		return simpleTimestampFormat.format(timestamp);
 	}
 
@@ -422,8 +423,8 @@ public class Translator {
 	 * @return formatted date
 	 */
 	public static synchronized String format(Date date) {
-		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(Config
-				.get(Config.FORMAT_DATE));
+		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(
+				Config.get(Config.FORMAT_DATE));
 		return simpleTimestampFormat.format(date);
 	}
 
@@ -436,8 +437,8 @@ public class Translator {
 	 */
 	public static synchronized Calendar formatDate(String dateString)
 			throws DDIFtpException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(Config
-				.get(Config.FORMAT_DATE));
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				Config.get(Config.FORMAT_DATE));
 		try {
 			java.util.Date date = dateFormat.parse(dateString);
 			Calendar result = Calendar.getInstance();
@@ -461,8 +462,8 @@ public class Translator {
 	 */
 	public static synchronized Calendar formatTimestamp(String timestampString)
 			throws DDIFtpException {
-		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(Config
-				.get(Config.FORMAT_TIMESTAMP));
+		SimpleDateFormat simpleTimestampFormat = new SimpleDateFormat(
+				Config.get(Config.FORMAT_TIMESTAMP));
 		try {
 			java.util.Date date = simpleTimestampFormat.parse(timestampString);
 			Calendar result = Calendar.getInstance();
@@ -607,14 +608,28 @@ public class Translator {
 			return bytesToMegaBytes(bytes);
 		} else {
 			return new BigDecimal(bytes).divide(kibibyte, decimal,
-					RoundingMode.HALF_EVEN)
-					+ " " + kb;
+					RoundingMode.HALF_EVEN) + " " + kb;
 		}
 	}
 
 	private static String bytesToMegaBytes(Long bytes) {
 		return new BigDecimal(bytes).divide(mebibyte, decimal,
-				RoundingMode.HALF_EVEN)
-				+ " " + mb;
+				RoundingMode.HALF_EVEN) + " " + mb;
+	}
+
+	public static BigInteger stringToBigInt(String value)
+			throws DDIFtpException {
+		if (value.equals("")) { // guard
+			return new BigInteger("0");
+		}
+
+		BigInteger bigint = null;
+		try {
+			bigint = new BigInteger(value);
+		} catch (Exception e) {
+			throw new DDIFtpException(trans("bigint.error",
+					new Object[] { value }));
+		}
+		return bigint;
 	}
 }
