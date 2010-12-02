@@ -1,12 +1,13 @@
 package org.ddialliance.ddiftp.util.log;
 
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * Wrapper logger for log4j logger
  */
 public final class Log4jLog implements Log {
-	final org.apache.log4j.Logger logger;
+	final Logger logger;
 
 	final static String FQCN = Log4jLog.class.getName();
 
@@ -26,6 +27,9 @@ public final class Log4jLog implements Log {
 		}
 	}
 
+	public Logger getLogger() {
+		return logger;
+	}
 	/**
 	 * Get logger name
 	 * 
