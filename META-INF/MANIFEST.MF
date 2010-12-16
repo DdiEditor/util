@@ -8,7 +8,7 @@ Export-Package: org.ddialliance.ddiftp.util,
  org.ddialliance.ddiftp.util.log;uses:="org.apache.log4j",
  org.ddialliance.ddiftp.util.xml;uses:="org.ddialliance.ddi_3_0.xml.xmlbeans.instance"
 Require-Bundle: lib-java;bundle-version="0.1.0",
- org.eclipse.osgi;bundle-version="3.5.2",
- org.eclipse.ui;bundle-version="3.5.2",
- org.eclipse.core.runtime;bundle-version="3.5.0"
+ org.eclipse.osgi;bundle-version="3.6.1",
+ org.eclipse.ui;bundle-version="3.6.1",
+ org.eclipse.core.runtime;bundle-version="3.6.0"
 Import-Package: org.osgi.framework
