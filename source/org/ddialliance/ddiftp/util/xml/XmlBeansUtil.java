@@ -244,6 +244,9 @@ public class XmlBeansUtil {
 		while (!token.equals(XmlCursor.TokenType.TEXT)
 				|| (token.equals(XmlCursor.TokenType.TEXT) && text.length() == 0)) {
 			token = xmlCursor.toNextToken();
+			if (token.equals(XmlCursor.TokenType.END)) {
+				return "";
+			}
 			text = xmlCursor.getTextValue().trim();
 		}
 		xmlCursor.dispose();
