@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: util
 Bundle-SymbolicName: util
-Bundle-Version: 0.12.0
+Bundle-Version: 0.13.0
 Bundle-ClassPath: build/
 Export-Package: org.ddialliance.ddiftp.util,
  org.ddialliance.ddiftp.util.log;uses:="org.apache.log4j",
