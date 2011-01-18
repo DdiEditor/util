@@ -225,6 +225,10 @@ public class XmlBeansUtil {
 	 * @return text
 	 */
 	public static String getTextOnMixedElement(XmlObject xmlObject) {
+		if (xmlObject==null) { // guard
+			return "";
+		}
+		
 		XmlCursor xmlCursor = xmlObject.newCursor();
 		// toLastAttribute does not skip namespaces - so continue
 		// until none empty TEXT token
