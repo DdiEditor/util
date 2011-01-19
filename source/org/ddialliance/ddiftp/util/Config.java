@@ -89,6 +89,8 @@ public class Config {
 					m.invoke(null, null);
 				} catch (Exception e) {
 					e.printStackTrace();
+					LogFactory.getLog(LogType.EXCEPTION, Config.class).error(
+							e.getMessage(), e);
 				}
 			} else {
 				LogFactory.getLog(LogType.SYSTEM, Config.class).warn(
