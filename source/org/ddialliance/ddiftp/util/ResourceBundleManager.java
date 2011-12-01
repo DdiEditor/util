@@ -2,8 +2,6 @@ package org.ddialliance.ddiftp.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -13,9 +11,30 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+/*
+ * Copyright 2011 Danish Data Archive (http://www.dda.dk) 
+ * 
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either Version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *  
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library; if not, write to the 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ * The full text of the license is also available on the Internet at 
+ * http://www.gnu.org/copyleft/lesser.html
+ */
+
 /**
- * ResourceBundleManager manages several resource bundles and provides a 
- * uniform access to them 
+ * ResourceBundleManager manages several resource bundles and provides a uniform
+ * access to them
  */
 public abstract class ResourceBundleManager extends ResourceBundle {
 	public static final String BUNDLE_DIRECTORY = "resources/";
@@ -124,15 +143,17 @@ public abstract class ResourceBundleManager extends ResourceBundle {
 		}
 	}
 
-	public static void addResourceBundleFromProperties(String baseName, Locale locale) {
+	public static void addResourceBundleFromProperties(String baseName,
+			Locale locale) {
 		String[] test = {
-				baseName + "_" + locale.getLanguage() + "_" + locale.getCountry() + "_"
-						+ locale.getVariant() + ".properties",
-				baseName + "_" + locale.getLanguage() + "_" + locale.getCountry()
+				baseName + "_" + locale.getLanguage() + "_"
+						+ locale.getCountry() + "_" + locale.getVariant()
 						+ ".properties",
+				baseName + "_" + locale.getLanguage() + "_"
+						+ locale.getCountry() + ".properties",
 				baseName + "_" + locale.getLanguage() + ".properties",
 				baseName + ".properties" };
-		
+
 		File file;
 		for (int i = 0; i < test.length; i++) {
 			file = new File(test[i]);
@@ -142,11 +163,11 @@ public abstract class ResourceBundleManager extends ResourceBundle {
 							new FileInputStream(file)));
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Default implementation of ResourceBundleManager
 	 */

@@ -7,6 +7,27 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/*
+ * Copyright 2011 Danish Data Archive (http://www.dda.dk) 
+ * 
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either Version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *  
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library; if not, write to the 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ * The full text of the license is also available on the Internet at 
+ * http://www.gnu.org/copyleft/lesser.html
+ */
+
 public class LanguageUtil {
 	/**
 	 * Retrieve available languages defined by ISO-639
@@ -56,17 +77,19 @@ public class LanguageUtil {
 		}
 		return result;
 	}
-	
-	public static String getLanguage(String langCode, String[][] availableLanguages) {		
+
+	public static String getLanguage(String langCode,
+			String[][] availableLanguages) {
 		for (int i = 0; i < availableLanguages.length; i++) {
 			if (availableLanguages[i][1].equals(langCode)) {
 				return availableLanguages[i][0];
 			}
 		}
 		return "";
-	}																												
-	
-	public static Integer getLanguageIndex(String langCode, String[][] availableLanguages) {		
+	}
+
+	public static Integer getLanguageIndex(String langCode,
+			String[][] availableLanguages) {
 		for (int i = 0; i < availableLanguages.length; i++) {
 			if (availableLanguages[i][1].equals(langCode)) {
 				return i;
@@ -74,7 +97,7 @@ public class LanguageUtil {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Get available ISO 639 languages excluding specified language
 	 * 
@@ -154,7 +177,8 @@ public class LanguageUtil {
 		return indexOfLangCode(langCode, getAvailableLanguages());
 	}
 
-	public static int indexOfLangCode(String langCode, String[][] availableLanguages) {
+	public static int indexOfLangCode(String langCode,
+			String[][] availableLanguages) {
 		// search
 		int found = -1;
 		for (int i = 0; i < availableLanguages.length; i++) {

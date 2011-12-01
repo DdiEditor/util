@@ -15,6 +15,27 @@ import org.ddialliance.ddiftp.util.osgi.Activator;
 import org.eclipse.osgi.framework.adaptor.ClassLoaderDelegate;
 import org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader;
 
+/*
+ * Copyright 2011 Danish Data Archive (http://www.dda.dk) 
+ * 
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either Version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *  
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library; if not, write to the 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ * The full text of the license is also available on the Internet at 
+ * http://www.gnu.org/copyleft/lesser.html
+ */
+
 public class Config {
 	private static Properties properties = new Properties();
 	public static String CONFIG_FILE = "ddiftp-app.properties";
@@ -61,8 +82,7 @@ public class Config {
 			// no sub class to init
 			LogFactory
 					.getLog(LogType.SYSTEM, Config.class)
-					.info(
-							"System property: ddiftp.config is empty. No injection class used for configuration");
+					.info("System property: ddiftp.config is empty. No injection class used for configuration");
 		} else {
 			// class load config
 			Class subConfig = null;
@@ -129,8 +149,8 @@ public class Config {
 			}
 			properties.store(new FileOutputStream(file), null);
 		} catch (IOException e) {
-			throw new DDIFtpException("file.notfound", new Object[] { file
-					.getAbsoluteFile() }, e);
+			throw new DDIFtpException("file.notfound",
+					new Object[] { file.getAbsoluteFile() }, e);
 		}
 	}
 

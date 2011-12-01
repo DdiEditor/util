@@ -16,9 +16,30 @@ import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
 
+/*
+ * Copyright 2011 Danish Data Archive (http://www.dda.dk) 
+ * 
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either Version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *  
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library; if not, write to the 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ * The full text of the license is also available on the Internet at 
+ * http://www.gnu.org/copyleft/lesser.html
+ */
+
 public class FileUtil {
-	final static Log log = LogFactory.getLog(LogType.SYSTEM, FileUtil.class
-			.getName());
+	final static Log log = LogFactory.getLog(LogType.SYSTEM,
+			FileUtil.class.getName());
 	private static final int BSIZE = 1024;
 
 	/**
@@ -137,40 +158,53 @@ public class FileUtil {
 			scanner.close();
 		}
 	}
-	
+
 	/**
 	 * Persist properties to a file
-	 * @param path to file
-	 * @param properties to store
+	 * 
+	 * @param path
+	 *            to file
+	 * @param properties
+	 *            to store
 	 * @throws DDIFtpException
 	 */
-	public static void storeProperties(String path, Properties properties) throws DDIFtpException {		
+	public static void storeProperties(String path, Properties properties)
+			throws DDIFtpException {
 		storeProperties(new File(path), properties);
 	}
-	
+
 	/**
 	 * Persist properties to a file
-	 * @param file to store in
-	 * @param properties to store
+	 * 
+	 * @param file
+	 *            to store in
+	 * @param properties
+	 *            to store
 	 * @throws DDIFtpException
 	 */
-	public static void storeProperties(File file, Properties properties) throws DDIFtpException {
+	public static void storeProperties(File file, Properties properties)
+			throws DDIFtpException {
 		if (file.exists()) {
 			file.delete();
 		}
-		
+
 		try {
 			FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-			properties.store(fileWriter, "Stored by: "+System.getenv().get("USER"));
+			properties.store(fileWriter,
+					"Stored by: " + System.getenv().get("USER"));
 			fileWriter.close();
 		} catch (IOException e) {
-			throw new DDIFtpException("Error storing at: "+file.getAbsoluteFile()+" properties: "+ properties.toString(), e);
+			throw new DDIFtpException("Error storing at: "
+					+ file.getAbsoluteFile() + " properties: "
+					+ properties.toString(), e);
 		}
 	}
-	
+
 	/**
 	 * Load properties from a file
-	 * @param file to load from
+	 * 
+	 * @param file
+	 *            to load from
 	 * @return loaded properties
 	 * @throws DDIFtpException
 	 */
@@ -180,10 +214,9 @@ public class FileUtil {
 			properties.load(new FileInputStream(file));
 		} catch (FileNotFoundException e) {
 			throw new DDIFtpException("file.notfound", file.getAbsoluteFile(),
-					e); 
+					e);
 		} catch (IOException e) {
-			throw new DDIFtpException("file.ioerror", file.getAbsoluteFile(),
-					e); 
+			throw new DDIFtpException("file.ioerror", file.getAbsoluteFile(), e);
 		}
 		return properties;
 	}
