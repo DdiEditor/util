@@ -70,7 +70,7 @@ public class Config {
 		set(Config.ARRAY_DELIMITER, "__");
 		set(Config.DDI3_XML_VERSION, "3.0");
 		set(Config.DDI3_XMLBEANS_BASEPACKAGE,
-				"org.ddialliance.ddi_3_0.xml.xmlbeans.");
+				"org.ddialliance.ddi3.xml.xmlbeans.");
 		set(Config.XSLT_JAVA_TRANSFORM,
 				"javax.xml.transform.TransformerFactory");
 		set(Config.XSLT_IMPLEMENTATION,
