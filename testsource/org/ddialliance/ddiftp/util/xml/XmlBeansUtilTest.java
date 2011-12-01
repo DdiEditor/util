@@ -14,8 +14,28 @@ import org.ddialliance.ddi3.xml.xmlbeans.reusable.LabelType;
 import org.ddialliance.ddi3.xml.xmlbeans.reusable.StructuredStringType;
 import org.ddialliance.ddi3.xml.xmlbeans.studyunit.StudyUnitType;
 import org.ddialliance.ddieditor.model.lightxmlobject.LightXmlObjectType;
-import org.junit.Ignore;
 import org.junit.Test;
+
+/*
+* Copyright 2011 Danish Data Archive (http://www.dda.dk) 
+* 
+* This program is free software; you can redistribute it and/or modify it 
+* under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation; either Version 3 of the License, or 
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful, 
+* but WITHOUT ANY WARRANTY; without even the implied warranty of 
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See the GNU Lesser General Public License for more details.
+*  
+* You should have received a copy of the GNU Lesser General Public 
+* License along with this library; if not, write to the 
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+* Boston, MA  02110-1301  USA
+* The full text of the license is also available on the Internet at 
+* http://www.gnu.org/copyleft/lesser.html
+*/
 
 public class XmlBeansUtilTest {
 	@Test
@@ -114,8 +134,8 @@ public class XmlBeansUtilTest {
 				.newInstance();
 
 		// version not set
-		String result = XmlBeansUtil.getXmlAttributeValue(lightXmlObject
-				.toString(), "version=\"");
+		String result = XmlBeansUtil.getXmlAttributeValue(
+				lightXmlObject.toString(), "version=\"");
 		Assert.assertEquals("Version not set!", null, result);
 
 		// version set as null
@@ -137,8 +157,10 @@ public class XmlBeansUtilTest {
 				.newInstance();
 		ddiInstanceDoc.addNewDDIInstance();
 		XmlBeansUtil.addXsiAttributes(ddiInstanceDoc);
-		String xsi = XmlBeansUtil.getXmlAttributeValue(ddiInstanceDoc.xmlText(), "xmlns:xsi=\"");
-		String xsiSchemaLocation = XmlBeansUtil.getXmlAttributeValue(ddiInstanceDoc.xmlText(), "xsi:schemaLocation=\"");
-		//System.out.println(ddiInstanceDoc.getDDIInstance());
+		String xsi = XmlBeansUtil.getXmlAttributeValue(
+				ddiInstanceDoc.xmlText(), "xmlns:xsi=\"");
+		String xsiSchemaLocation = XmlBeansUtil.getXmlAttributeValue(
+				ddiInstanceDoc.xmlText(), "xsi:schemaLocation=\"");
+		// System.out.println(ddiInstanceDoc.getDDIInstance());
 	}
 }
