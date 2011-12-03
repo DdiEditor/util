@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: util
+Bundle-Name: DdiEditor Util
 Bundle-SymbolicName: util;singleton:=true
 Bundle-Version: 0.18.0
 Bundle-ClassPath: build/
