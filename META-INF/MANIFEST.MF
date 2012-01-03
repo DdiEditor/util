@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: DdiEditor Util
 Bundle-SymbolicName: util
 Bundle-Version: 0.18.0
-Bundle-ClassPath: util,
+Bundle-ClassPath: .,
  build/
 Bundle-Activator: org.ddialliance.ddiftp.util.osgi.Activator
 Bundle-Vendor: Danish Data Archive
