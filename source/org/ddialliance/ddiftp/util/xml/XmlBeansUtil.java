@@ -177,6 +177,19 @@ public class XmlBeansUtil {
 
 		return (T) xmlObject;
 	}
+	
+	/**
+	 * Set XML on XmlObejct
+	 * @param target to insert into
+	 * @param source to insert
+	 */
+	public static void setXmlOnElement(XmlObject target, XmlObject source) {
+		XmlCursor targetCursor = target.newCursor();
+		XmlCursor sourceCursor = source.newCursor();
+		sourceCursor.toFirstChild();
+		targetCursor.toEndToken();
+		sourceCursor.moveXml(targetCursor);
+	}
 
 	/**
 	 * Set text on a mixed content element at first position after attributs
