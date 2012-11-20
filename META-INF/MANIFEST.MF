@@ -8,6 +8,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: org.ddialliance.ddiftp.util.osgi.Activator
 Bundle-Vendor: Danish Data Archive
 Export-Package: org.ddialliance.ddiftp.util,
+ org.ddialliance.ddiftp.util.cv,
  org.ddialliance.ddiftp.util.log;uses:="org.apache.log4j",
  org.ddialliance.ddiftp.util.osgi,
  org.ddialliance.ddiftp.util.xml
