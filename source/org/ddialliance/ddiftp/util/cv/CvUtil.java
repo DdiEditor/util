@@ -20,6 +20,10 @@ import org.oasisOpen.docs.codelist.ns.genericode.Value;
 public class CvUtil {
 	public static String DDA_CV_PATH = ".dda.dk-";
 
+	public static String CODE_COLUMN_REF = "code";
+	public static String DESCRIPTION_COLUMN_REF = "description";
+	public static String DDA_CODE_COLUMN_REF = "ddacode";
+
 	public static CodeListDocument loadInCvFromFile(File file)
 			throws DDIFtpException {
 		if (!file.exists()) {
@@ -136,5 +140,19 @@ public class CvUtil {
 				"xml:lang=\"");
 		String value = XmlBeansUtil.getTextOnMixedElement(xmlObject);
 		m.put(attr, value);
+	}
+
+	/**
+	 * Scrubs leading '0' return from journal database
+	 * 
+	 * @param value
+	 *            to scrub
+	 * @return scrubed value
+	 */
+	public static String scrubDbCvValue(String value) {
+		if (value.startsWith("0")) {
+			value = value.substring(1);
+		}
+		return value;
 	}
 }
