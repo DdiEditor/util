@@ -177,11 +177,14 @@ public class XmlBeansUtil {
 
 		return (T) xmlObject;
 	}
-	
+
 	/**
 	 * Set XML on XmlObejct
-	 * @param target to insert into
-	 * @param source to insert
+	 * 
+	 * @param target
+	 *            to insert into
+	 * @param source
+	 *            to insert
 	 */
 	public static void setXmlOnElement(XmlObject target, XmlObject source) {
 		XmlCursor targetCursor = target.newCursor();
@@ -238,10 +241,10 @@ public class XmlBeansUtil {
 	 * @return text
 	 */
 	public static String getTextOnMixedElement(XmlObject xmlObject) {
-		if (xmlObject==null) { // guard
+		if (xmlObject == null) { // guard
 			return "";
 		}
-		
+
 		XmlCursor xmlCursor = xmlObject.newCursor();
 		// toLastAttribute does not skip namespaces - so continue
 		// until none empty TEXT token
@@ -325,8 +328,11 @@ public class XmlBeansUtil {
 		instanceOfXmlBeanDocument(xmlObject, throwable);
 
 		// retrieve local name of node
-		String localName = xmlObject.getClass().getName().substring(0,
-				xmlObject.getClass().getName().indexOf("Document"));
+		String localName = xmlObject
+				.getClass()
+				.getName()
+				.substring(0,
+						xmlObject.getClass().getName().indexOf("Document"));
 		localName = localName.substring(localName.lastIndexOf(".") + 1);
 
 		// retrieve xml object type
@@ -453,8 +459,8 @@ public class XmlBeansUtil {
 	 * @return result
 	 */
 	public static boolean isDefaultLangElement(XmlObject xmlObject) {
-		return Translator.getLocale().getLanguage().equals(
-				getXmlAttributeValue(xmlObject.xmlText(), "lang=\""));
+		return Translator.getLocale().getLanguage()
+				.equals(getXmlAttributeValue(xmlObject.xmlText(), "lang=\""));
 
 	}
 
@@ -479,11 +485,10 @@ public class XmlBeansUtil {
 		cursor.insertNamespace("xsi",
 				"http://www.w3.org/2001/XMLSchema-instance");
 		cursor.toNextToken();
-		cursor
-				.insertAttributeWithValue(
-						new QName("http://www.w3.org/2001/XMLSchema-instance",
-								"schemaLocation", "xsi"),
-						"ddi:instance:3_1 http://www.ddialliance.org/sites/default/files/schema/ddi3.1/instance.xsd");
+		cursor.insertAttributeWithValue(
+				new QName("http://www.w3.org/2001/XMLSchema-instance",
+						"schemaLocation", "xsi"),
+				"ddi:instance:3_1 http://www.ddialliance.org/sites/default/files/schema/ddi3.1/instance.xsd");
 		cursor.dispose();
 	}
 
@@ -496,13 +501,14 @@ public class XmlBeansUtil {
 	 * @return replaced xml
 	 */
 	public static String replaceSpecialCharcters(String xml) {
-		// 1. & - &amp;
-		// 2. < - &lt;
-		// 3. > - &gt;
-		// 4. " - &quot;
-		// 5. ' - &#39;
-		String[] key = { "&", "<", ">", "\"", "'" };
-		String[] replace = { "&amp;", "&lt", "&gt;", "&quot;", "&#39;" };
+		// 1 Less Than < &lt; &#60;
+		// 2 Greater Than > &gt; &#62;
+		// 3 Double Quote " &quot; &#34;
+		// 4 Single Quote ' &apos; &#39;
+		// 5 Ampersand & &amp; &#38;
+
+		String[] key = { "<", ">", "\"", "'", "&" };
+		String[] replace = { "&lt", "&gt;", "&quot;", "&apos;", "&amp;" };
 		for (int i = 0; i < replace.length; i++) {
 			xml = xml.replaceAll(key[i], replace[i]);
 		}
