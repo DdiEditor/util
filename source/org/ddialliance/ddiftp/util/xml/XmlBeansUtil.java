@@ -2,6 +2,7 @@ package org.ddialliance.ddiftp.util.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -20,6 +21,7 @@ import org.ddialliance.ddiftp.util.Translator;
 import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
+import org.python.core.exceptions;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -500,18 +502,20 @@ public class XmlBeansUtil {
 	 *            to replace
 	 * @return replaced xml
 	 */
-	public static String replaceSpecialCharcters(String xml) {
+	public static String replaceSpecialCharcters(String xml) throws Exception {
 		// 1 Less Than < &lt; &#60;
 		// 2 Greater Than > &gt; &#62;
 		// 3 Double Quote " &quot; &#34;
 		// 4 Single Quote ' &apos; &#39;
 		// 5 Ampersand & &amp; &#38;
 
-		String[] key = { "<", ">", "\"", "'", "&" };
-		String[] replace = { "&lt", "&gt;", "&quot;", "&apos;", "&amp;" };
+		String[] key = { "<", ">", "\"", "'", "\\s&\\s" };
+		String[] replace = { "&lt;", "&gt;", "&quot;", "&apos;", " &amp; " };
 		for (int i = 0; i < replace.length; i++) {
 			xml = xml.replaceAll(key[i], replace[i]);
 		}
+		
+		// return URLEncoder.encode(xml, "utf-8");
 		return xml;
 	}
 }
