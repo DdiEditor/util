@@ -163,4 +163,14 @@ public class XmlBeansUtilTest {
 				ddiInstanceDoc.xmlText(), "xsi:schemaLocation=\"");
 		// System.out.println(ddiInstanceDoc.getDDIInstance());
 	}
+	
+	@Test
+	public void replaceSpecialCharcters() throws Exception {
+		String xml ="<kjlfjsldjflsjf> \"kashdkasdhakshdaskdhask\" 'laksjdlasjdlasjd' & ";
+		String result = XmlBeansUtil.replaceSpecialCharcters(xml);
+		if (result.indexOf("&apos;")==-1) {
+			System.out.println(result);
+			throw new Exception();
+		}
+	}
 }
