@@ -2,7 +2,6 @@ package org.ddialliance.ddiftp.util.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -11,9 +10,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlCursor.TokenType;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlCursor.TokenType;
 import org.ddialliance.ddiftp.util.Config;
 import org.ddialliance.ddiftp.util.DDIFtpException;
 import org.ddialliance.ddiftp.util.ReflectionUtil;
@@ -21,7 +20,6 @@ import org.ddialliance.ddiftp.util.Translator;
 import org.ddialliance.ddiftp.util.log.Log;
 import org.ddialliance.ddiftp.util.log.LogFactory;
 import org.ddialliance.ddiftp.util.log.LogType;
-import org.python.core.exceptions;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
