@@ -103,12 +103,12 @@ public class XmlBeansUtil {
 		}
 
 		Object obj = null;
-		XmlOptions options = new XmlOptions();
-		options.setLoadLineNumbers();
-		options.setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
+		// XmlOptions options = new XmlOptions();
+		// options.setLoadLineNumbers();
+		// options.setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
 		try {
 			obj = ReflectionUtil.invokeStaticMethod(className + "$Factory",
-					"parse", ddi, options);
+					"parse", ddi);
 		} catch (Exception e) {
 			String errorResoure = null;
 			if (ddi instanceof File) {
@@ -507,13 +507,12 @@ public class XmlBeansUtil {
 		// 4 Single Quote ' &apos; &#39;
 		// 5 Ampersand & &amp; &#38;
 
-		String[] key = { "<", ">", "\"", "'", "\\s&\\s" };
-		String[] replace = { "&lt;", "&gt;", "&quot;", "&apos;", " &amp; " };
-		for (int i = 0; i < replace.length; i++) {
-			xml = xml.replaceAll(key[i], replace[i]);
-		}
-		
-		// return URLEncoder.encode(xml, "utf-8");
+		// comment out 20130110 - escaping handled by xmlbeans
+		// String[] key = { "<", ">", "\"", "'", "\\s&\\s" };
+		// String[] replace = { "&lt;", "&gt;", "&quot;", "&apos;", " &amp; " };
+		// for (int i = 0; i < replace.length; i++) {
+		// xml = xml.replaceAll(key[i], replace[i]);
+		// }
 		return xml;
 	}
 }
