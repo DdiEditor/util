@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlCursor.TokenType;
+import org.apache.xmlbeans.XmlCursor.XmlBookmark;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.ddialliance.ddiftp.util.Config;
@@ -214,6 +215,45 @@ public class XmlBeansUtil {
 		// remove old text
 		String result = xmlCursor.getChars();
 		xmlCursor.removeChars(result.length());
+		xmlCursor.dispose();
+
+		return xmlObject;
+	}
+
+	public static XmlObject appendTextOnMixedElement(
+			XmlObject xmlObject, String text) {
+		XmlCursor xmlCursor = xmlObject.newCursor();
+		xmlCursor.toFirstContentToken();
+
+		// move past  old text
+		int result = xmlCursor.getChars().length();
+		xmlCursor.toNextChar(result);
+		
+		// insert new text
+		xmlCursor.insertChars(text);
+		xmlCursor.dispose();
+
+		return xmlObject;
+	}
+
+	public static XmlObject appendTextOnMixedContentElement(
+			XmlObject xmlObject, String text) {
+		XmlCursor xmlCursor = xmlObject.newCursor();
+		boolean insert = false;
+		while (!xmlCursor.toNextToken().isNone()) {
+			if (xmlCursor.currentTokenType().equals(TokenType.START)) {
+				insert = true;
+			}
+			if (insert && xmlCursor.currentTokenType().equals(TokenType.END)) {
+				xmlCursor.toNextToken();
+				insert = false;
+				xmlCursor.push();
+			}
+		}
+
+		// insert new text
+		xmlCursor.pop();
+		xmlCursor.insertChars(text);
 		xmlCursor.dispose();
 
 		return xmlObject;
