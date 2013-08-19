@@ -5,7 +5,9 @@ public enum DdaCv {
 	// study description
 	//
 	KIND_OF_DATA("kindofdata", "1.0.0"),
-
+	
+	ANALYSIS_UNIT("analysisunit", "1.0.0"),
+	
 	//
 	// data collection methodology
 	//
