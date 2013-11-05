@@ -220,15 +220,15 @@ public class XmlBeansUtil {
 		return xmlObject;
 	}
 
-	public static XmlObject appendTextOnMixedElement(
-			XmlObject xmlObject, String text) {
+	public static XmlObject appendTextOnMixedElement(XmlObject xmlObject,
+			String text) {
 		XmlCursor xmlCursor = xmlObject.newCursor();
 		xmlCursor.toFirstContentToken();
 
-		// move past  old text
+		// move past old text
 		int result = xmlCursor.getChars().length();
 		xmlCursor.toNextChar(result);
-		
+
 		// insert new text
 		xmlCursor.insertChars(text);
 		xmlCursor.dispose();
@@ -310,6 +310,18 @@ public class XmlBeansUtil {
 			text = xmlCursor.getTextValue().trim();
 		}
 		xmlCursor.dispose();
+
+		// remove first new line
+		int index = text.indexOf("\n");
+		if (index > -1) {
+			StringBuilder resultRemoveNewLines = new StringBuilder();
+			resultRemoveNewLines.delete(0, resultRemoveNewLines.length());
+			resultRemoveNewLines.append(text.substring(0, index));
+			resultRemoveNewLines.append(" ");
+			resultRemoveNewLines.append(text
+					.substring(index + 1, text.length()).trim());
+			return resultRemoveNewLines.toString();
+		}
 		return text;
 	}
 
