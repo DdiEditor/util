@@ -63,7 +63,7 @@ public class CvUtil {
 				.getShortName().getStringValue());
 
 		// code list version
-		codeValue.setCodeListName(cv.getCodeList().getIdentification()
+		codeValue.setCodeListVersionID(cv.getCodeList().getIdentification()
 				.getVersion());
 
 		// code scheme urn
