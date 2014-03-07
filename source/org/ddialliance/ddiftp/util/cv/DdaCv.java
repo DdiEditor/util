@@ -27,7 +27,7 @@ public enum DdaCv {
 	//
 	// archive
 	//
-	STUDY_STATE("studystate", "1.0.0"),
+	STUDY_STATE("studystate", "2.0.0"),
 
 	ACCESS_RESTRICTION("accessrestrictions", "1.0.0"),
 
